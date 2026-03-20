@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<h1 class="welcome">Welcome 👋</h1>
+
+<div class="cards">
+
+    <div class="card" onclick="go('score.html')">🎯 Binge Score</div>
+    <div class="card" onclick="go('recommend.html')">👤 Personalized</div>
+    <div class="card" onclick="go('trends.html')">📈 Trends</div>
+    <div class="card" onclick="go('time.html')">⏳ Time Calculator</div>
+    <div class="card" onclick="go('mood.html')">🧠 Mood Based</div>
+    <div class="card" onclick="go('analytics.html')">📊 Dashboard</div>
+
+</div>
+
+<script src="js/navbar.js"></script>
+
+<script>
+function go(page) {
+    window.location.href = page;
+}
+</script>
+
+</body>
+</html>

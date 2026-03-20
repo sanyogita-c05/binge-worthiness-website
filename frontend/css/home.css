@@ -1,0 +1,205 @@
+/* HERO SECTION */
+.hero {
+    position: relative;
+    height: 100vh;
+    background: url("../assets/netflix.jpg") no-repeat center center/cover;
+}
+
+/* DARK OVERLAY */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* smooth cinematic dark gradient */
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.9)
+    );
+}
+
+/* CONTENT */
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 20px;
+}
+
+/* HEADINGS */
+.hero-content h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero-content h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #ccc;
+}
+
+.hero-content p {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.cta-btn {
+    background: #e50914;
+    padding: 12px 30px;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    background: #ff1f1f;
+}
+
+
+/* TRENDING SECTION */
+.trending {
+    padding: 50px;
+    background: black;
+}
+
+.trending h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* ROW */
+.card-row {
+    display: flex;
+    overflow-x: auto;
+        scroll-behavior: smooth;
+
+    gap: 20px;
+    padding-bottom: 10px;
+}
+
+/* HIDE SCROLLBAR */
+.card-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* CARD */
+.card {
+    position: relative;
+    min-width: 180px;
+    height: 260px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* HOVER EFFECT */
+.card:hover {
+    transform: scale(1.08);
+}
+
+/* BIG RANK NUMBER */
+.rank {
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+
+    font-size: 120px;
+    font-weight: bold;
+
+    color: transparent;
+    -webkit-text-stroke: 2px white;
+
+    z-index: 2;
+}
+/* FEATURES SECTION */
+.features {
+    padding: 60px 50px;
+    background: black;
+}
+
+.features h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+/* GRID */
+.feature-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* CARD */
+.feature-card {
+    background: linear-gradient(145deg, #1a1a2e, #2a1f3d);
+    border-radius: 15px;
+    padding: 25px;
+
+    min-height: 200px;
+
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* HOVER EFFECT */
+.feature-card:hover {
+    transform: translateY(-8px);
+}
+
+/* TEXT */
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #bbb;
+    font-size: 14px;
+}
+
+/* GLOW EFFECT */
+.feature-card::after {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255,0,150,0.4), transparent);
+    bottom: -40px;
+    right: -40px;
+}
+.icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+
+    color: #ff0055;
+
+    transition: 0.3s;
+}
+
+/* hover glow */
+.feature-card:hover .icon {
+    transform: scale(1.2);
+    color: #ff4d88;
+}

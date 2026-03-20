@@ -1,0 +1,25 @@
+.welcome {
+    text-align: center;
+    margin: 20px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 40px;
+}
+
+.card {
+    background: #1c1c1c;
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background: #e50914;
+    transform: scale(1.05);
+}

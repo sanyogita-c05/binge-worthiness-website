@@ -1,0 +1,71 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+/* Navbar */
+.navbar {
+    position: absolute;   /* IMPORTANT */
+    top: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 40px;
+
+    background: transparent;  /* transparent navbar */
+    z-index: 1000;
+}
+
+/* Logo */
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #e50914;
+}
+
+/* Links */
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 25px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #ccc;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.nav-links a:hover {
+    color: white;
+}
+
+/* Login Button */
+.login-btn {
+    background: #e50914;
+    padding: 6px 14px;
+    border-radius: 4px;
+    color: white !important;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #ff1f1f;
+}

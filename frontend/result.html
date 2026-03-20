@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result - BingeWise</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+<div class="result-container">
+
+    <h1>{{ title }}</h1>
+
+    <h2>Binge Score: {{ score }}/100</h2>
+
+    <h3>
+        Category:
+        {% if category == "High" %}
+            🔴 Highly Bingeable
+        {% elif category == "Medium" %}
+            🟡 Medium
+        {% else %}
+            🟢 Low
+        {% endif %}
+    </h3>
+
+    <!-- PERSONALIZATION INFO --> 
+    <p><strong>Mood Selected:</strong> {{ mood }}</p>
+    <p><strong>Available Time:</strong> {{ time }} hours</p>
+
+    <a href="/">⬅ Back</a>
+
+</div>
+
+</body>
+</html>

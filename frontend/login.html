@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - BingeWise</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<div class="login-container">
+    <h2>Welcome Back 🎬</h2>
+
+    <input type="email" placeholder="Email" id="email">
+    <input type="password" placeholder="Password" id="password">
+
+    <button onclick="login()">Login</button>
+</div>
+
+<script src="js/navbar.js"></script>
+
+<script>
+function login() {
+    // for now just redirect (no backend auth)
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
