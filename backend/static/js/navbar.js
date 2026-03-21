@@ -1,5 +1,5 @@
-// LOAD NAVBAR
-fetch("components/navbar.html")
+// LOAD NAVBAR FROM FLASK ROUTE
+fetch("/navbar")
   .then(response => response.text())
   .then(data => {
     document.getElementById("navbar").innerHTML = data;

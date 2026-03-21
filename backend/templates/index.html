@@ -2,132 +2,138 @@
 <html>
 <head>
     <title>BingeWise</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/home.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ✅ FIXED CSS PATHS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 <div id="navbar"></div>
-<section class="hero">
 
+<section class="hero">
     <div class="overlay"></div>
 
     <div class="hero-content">
-        <h1>We pick. You binge. </h1>
+        <h1>We pick. You binge.</h1>
         <h2>See what to watch next. Anytime, anywhere.</h2>
-        <p></p><h4>Your next obsession starts here.</h4></p>
+        <h4>Your next obsession starts here.</h4>
 
         <div class="hero-buttons">
-            <a href="dashboard.html" class="cta-btn">Get Started </a>
+            <!-- ✅ FIXED ROUTE -->
+            <a href="{{ url_for('dashboard') }}" class="cta-btn">Get Started</a>
         </div>
     </div>
-
 </section>
 
 <section class="trending">
-
-    <h2> Top Picks For You</h2>
+    <h2>Top Picks For You</h2>
 
     <div class="card-row">
 
         <div class="card">
             <span class="rank">1</span>
-            <img src="assets/howtolose.jpg">
+            <img src="{{ url_for('static', filename='assets/howtolose.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">2</span>
-            <img src="assets/Haseen_Dillruba.jpg">
+            <img src="{{ url_for('static', filename='assets/Haseen_Dillruba.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">3</span>
-            <img src="assets/Hey_Sinamika_poster.jpg">
+            <img src="{{ url_for('static', filename='assets/Hey_Sinamika_poster.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">4</span>
-            <img src="assets/purplehearts.jpg">
+            <img src="{{ url_for('static', filename='assets/purplehearts.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">5</span>
-            <img src="assets/veronica.jpg">
+            <img src="{{ url_for('static', filename='assets/veronica.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">6</span>
-            <img src="assets/frozen.jpg">
+            <img src="{{ url_for('static', filename='assets/frozen.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">7</span>
-            <img src="assets/Me_Before_You.jpg">
+            <img src="{{ url_for('static', filename='assets/Me_Before_You.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">8</span>
-            <img src="assets/squidgame.jpg">
+            <img src="{{ url_for('static', filename='assets/squidgame.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">9</span>
-            <img src="assets/mydemon.jpg">
+            <img src="{{ url_for('static', filename='assets/mydemon.jpg') }}">
         </div>
 
         <div class="card">
             <span class="rank">10</span>
-            <img src="assets/A_Business_Proposal.jpg">
-
+            <img src="{{ url_for('static', filename='assets/A_Business_Proposal.jpg') }}">
         </div>
-        <div class="card"><span class="rank">11</span><img src="assets/yes boss.jpg"></div>
 
-        <div class="card"><span class="rank">12</span><img src="assets/Dhurandhar_poster.jpg.webp"></div>
+        <div class="card">
+            <span class="rank">11</span>
+            <img src="{{ url_for('static', filename='assets/yes boss.jpg') }}">
+        </div>
 
+        <div class="card">
+            <span class="rank">12</span>
+            <img src="{{ url_for('static', filename='assets/Dhurandhar_poster.jpg.webp') }}">
+        </div>
 
     </div>
-
 </section>
-<section class="features">
 
-    <h2> Why Choose BingeWise?</h2>
+<section class="features">
+    <h2>Why Choose BingeWise?</h2>
 
     <div class="feature-container">
 
-       <div class="feature-card">
-    <i class="fas fa-brain icon"></i>
-    <h3>Smart Binge Score</h3>
-    <p>Get AI-powered scores based on ratings and preferences.</p>
-</div>
+        <div class="feature-card">
+            <i class="fas fa-brain icon"></i>
+            <h3>Smart Binge Score</h3>
+            <p>Get AI-powered scores based on ratings and preferences.</p>
+        </div>
 
-<div class="feature-card">
-    <i class="fas fa-clock icon"></i>
-    <h3>Time-Based Suggestions</h3>
-    <p>Watch what fits your schedule.</p>
-</div>
+        <div class="feature-card">
+            <i class="fas fa-clock icon"></i>
+            <h3>Time-Based Suggestions</h3>
+            <p>Watch what fits your schedule.</p>
+        </div>
 
-<div class="feature-card">
-    <i class="fas fa-heart icon"></i>
-    <h3>Mood-Based Picks</h3>
-    <p>Recommendations based on your vibe.</p>
-</div>
+        <div class="feature-card">
+            <i class="fas fa-heart icon"></i>
+            <h3>Mood-Based Picks</h3>
+            <p>Recommendations based on your vibe.</p>
+        </div>
 
-<div class="feature-card">
-    <i class="fas fa-fire icon"></i>
-    <h3>Trending & Hype</h3>
-    <p>See what’s hot right now.</p>
-</div>
+        <div class="feature-card">
+            <i class="fas fa-fire icon"></i>
+            <h3>Trending & Hype</h3>
+            <p>See what’s hot right now.</p>
+        </div>
 
     </div>
-
 </section>
 
+<!-- ✅ FAQ SECTION KEPT EXACTLY SAME -->
 <section class="faq">
 
-    <h2> BingeWise FAQs</h2>
+    <h2>BingeWise FAQs</h2>
 
     <div class="faq-item active">
         <div class="faq-question">
@@ -181,6 +187,7 @@
 
 </section>
 
+<!-- ✅ FOOTER KEPT EXACTLY SAME -->
 <footer class="footer">
 
     <h3>Questions? Contact us</h3>
@@ -217,13 +224,13 @@
     </div>
 
     <p class="footer-email">📧 support@bingewise.com</p>
-
     <p class="footer-copy">© 2026 BingeWise. All rights reserved.</p>
 
 </footer>
 
-<script src="js/navbar.js"></script>
-<script src="js/faq.js"></script>
+<!-- ✅ FIXED JS PATHS -->
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/faq.js') }}"></script>
 
 </body>
 </html>
