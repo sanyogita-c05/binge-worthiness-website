@@ -101,9 +101,9 @@
 /* CARD */
 .card {
     position: relative;
-    min-width: 180px;
-    height: 260px;
-    border-radius: 10px;
+    min-width: 220px;   /* bigger width */
+    height: 320px;      /* taller */
+    border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s;
 }
@@ -202,4 +202,152 @@
 .feature-card:hover .icon {
     transform: scale(1.2);
     color: #ff4d88;
+}
+/* FAQ SECTION */
+.faq {
+    background: black;
+    padding: 50px;
+}
+
+.faq h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* ITEM */
+.faq-item {
+    background: #2b2b2b;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* QUESTION */
+.faq-question {
+    padding: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ANSWER */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    font-size: 15px;
+    color: #ccc;
+    transition: all 0.3s ease;
+}
+
+/* ACTIVE STATE */
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding: 20px;
+}
+
+.faq-item.active .icon {
+    content: "✖";
+}
+/* FOOTER */
+.footer {
+    background: black;
+    color: #aaa;
+    padding: 50px;
+    text-align: center;
+}
+
+/* TITLE */
+.footer h3 {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+/* GRID */
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+/* LINKS */
+.footer-col a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-col a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+/* EMAIL */
+.footer-email {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* COPYRIGHT */
+.footer-copy {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #777;
+}
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 50px;
+    z-index: 1000;
+
+    transition: 0.3s;
+}
+
+/* LOGO */
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #e50914;
+}
+
+/* NAV LINKS */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;   /* THIS creates spacing */
+}
+
+/* LINKS */
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #e50914;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+    background: #e50914;
+    padding: 6px 15px;
+    border-radius: 5px;
+}
+
+.login-btn:hover {
+    background: #ff1f1f;
 }
