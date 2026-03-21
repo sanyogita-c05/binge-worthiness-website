@@ -351,3 +351,20 @@
 .login-btn:hover {
     background: #ff1f1f;
 }
+.cta-btn {
+    background: #e50914;
+    padding: 14px 35px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-top: 20px;
+
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    background: #ff1f1f;
+    transform: scale(1.05);
+}

@@ -1,0 +1,78 @@
+/* DASHBOARD */
+.dashboard {
+    padding: 100px 20px;   /* more top space */
+    background: black;
+    min-height: 100vh;
+    color: white;
+}
+
+/* GRID */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    
+    gap: 40px;              /* 👈 MORE SPACE BETWEEN CARDS */
+    
+    max-width: 800px;       /* controls overall size */
+    margin: auto;
+}
+
+/* CARD */
+.feature-card {
+    background: linear-gradient(145deg, #1a1a2e, #2a1f3d);
+    border-radius: 15px;
+    cursor: pointer;
+
+    aspect-ratio: 1 / 1;   /* square shape */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.3s;
+    position: relative;     /* 👈 REQUIRED for glow */
+    overflow: hidden;
+
+    padding: 20px;
+}
+
+/* ICON */
+.feature-card .icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+/* TEXT */
+.feature-card h3 {
+    font-size: 18px;
+    text-align: center;
+}
+
+.feature-card p {
+    color: #bbb;
+    font-size: 14px;
+}
+
+/* HOVER */
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.05);
+}
+
+/* GLOW EFFECT */
+.feature-card::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,0,150,0.35), transparent);
+    bottom: -50px;
+    right: -50px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+}
