@@ -1,36 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <title>Result - BingeWise</title>
-    <link rel="stylesheet" href="css/global.css">
-</head>
+  <head>
+    <title>Result</title>
 
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/global.css') }}"
+    />
+  </head>
 
-<div class="result-container">
+  <body>
+    <div id="navbar"></div>
 
-    <h1>{{ title }}</h1>
+    <section class="result-section">
+      <h1>{{ title }}</h1>
 
-    <h2>Binge Score: {{ score }}/100</h2>
+      <div class="result-card">
+        <h2>🎯 Binge Score: {{ score }}/100</h2>
 
-    <h3>
-        Category:
-        {% if category == "High" %}
-            🔴 Highly Bingeable
-        {% elif category == "Medium" %}
-            🟡 Medium
-        {% else %}
-            🟢 Low
-        {% endif %}
-    </h3>
+        <h3>{{ category }}</h3>
 
-    <!-- PERSONALIZATION INFO --> 
-    <p><strong>Mood Selected:</strong> {{ mood }}</p>
-    <p><strong>Available Time:</strong> {{ time }} hours</p>
+        <p>📊 Confidence: {{ confidence }}%</p>
+      </div>
 
-    <a href="/">⬅ Back</a>
+      <a href="{{ url_for('score') }}" class="back-btn">⬅ Try Another</a>
+    </section>
 
-</div>
-
-</body>
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+  </body>
 </html>

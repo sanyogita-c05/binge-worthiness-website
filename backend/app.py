@@ -137,20 +137,39 @@ def predict_binge():
     if not result.empty:
         movie = result.iloc[0]
 
+        score = round(movie['binge_score'], 2)
+
+        # 🎯 Category Logic
+        if score < 40:
+            category = "🟢 Low"
+        elif score < 70:
+            category = "🟡 Medium"
+        else:
+            category = "🔴 Highly Bingeable"
+
+        # 📊 Confidence (simple logic based on votes/reviews)
+        if 'num_votes' in movie:
+            votes = movie['num_votes']
+            confidence = min(100, round((votes / 100000) * 100, 2))
+        else:
+            confidence = 85  # fallback
+
         return render_template(
             'result.html',
             title=movie['title'],
-            score=round(movie['binge_score'], 2),
-            category=movie['binge_category']
+            score=score,
+            category=category,
+            confidence=confidence
         )
+
     else:
         return render_template(
             'result.html',
             title="Not Found",
             score="N/A",
-            category="Try another movie"
+            category="Try another movie",
+            confidence="N/A"
         )
-
 
 # -------------------- RUN -------------------- #
 

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Binge Score</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/global.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div id="navbar"></div>
+
+    <section class="score-section">
+      <h1>🎯 Binge-Worthiness Score</h1>
+      <p>Find out if your next watch is worth the binge!</p>
+
+      <form action="/predict_binge" method="POST" class="score-form">
+        <input
+          type="text"
+          name="movie"
+          placeholder="Enter movie / series name..."
+          required
+        />
+
+        <button type="submit">Check Score</button>
+      </form>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+  </body>
+</html>
