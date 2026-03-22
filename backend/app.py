@@ -51,9 +51,7 @@ def navbar():
     return render_template('navbar.html')
 
 
-@app.route('/analytics')
-def analytics():
-    return render_template('analytics.html')
+
 
 
 @app.route('/trends')
@@ -170,6 +168,75 @@ def predict_binge():
             category="Try another movie",
             confidence="N/A"
         )
+
+
+
+
+
+
+
+
+
+
+@app.route('/analytics')
+def analytics():
+    global df
+
+    # -----------------------------
+    # 1. Binge Score Distribution
+    # -----------------------------
+    binge_distribution = df['binge_score'].tolist()
+
+    # -----------------------------
+    # 2. Genre vs Binge Score (TOP 10 ONLY)
+    # -----------------------------
+    df['genres'] = df['genres'].fillna('')
+    df_genre = df.assign(genres=df['genres'].str.split(',')).explode('genres')
+    df_genre['genres'] = df_genre['genres'].str.strip()
+    df_genre = df_genre[df_genre['genres'] != '']
+
+    genre_score = (
+        df_genre.groupby('genres')['binge_score']
+        .mean()
+        .sort_values(ascending=False)
+        .head(10)
+        .reset_index()
+    )
+
+    # -----------------------------
+    # 3. Sample data (IMPORTANT FIX)
+    # -----------------------------
+    sample_df = df.sample(n=min(200, len(df)))  # LIMIT POINTS
+
+    episode_length = sample_df['recency_norm'].tolist()
+    completion_prob = sample_df['popularity_norm'].tolist()
+
+    imdb_rating = sample_df['rating'].tolist()
+    imdb_binge = sample_df['binge_score'].tolist()
+
+    reviews = sample_df['votes'].tolist()
+    popularity = sample_df['popularity'].tolist()
+
+    # -----------------------------
+    # 4. Trend (sorted)
+    # -----------------------------
+    trend_data = df.groupby('year')['popularity'].mean().reset_index()
+    trend_data = trend_data.sort_values('year')
+
+    return render_template(
+        "analytics.html",
+        binge_distribution=binge_distribution,
+        genre_labels=genre_score['genres'].tolist(),
+        genre_scores=genre_score['binge_score'].tolist(),
+        episode_length=episode_length,
+        completion_prob=completion_prob,
+        imdb_rating=imdb_rating,
+        imdb_binge=imdb_binge,
+        reviews=reviews,
+        popularity=popularity,
+        years=trend_data['year'].tolist(),
+        trend_popularity=trend_data['popularity'].tolist()
+    )
 
 # -------------------- RUN -------------------- #
 
