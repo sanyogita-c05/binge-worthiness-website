@@ -1,0 +1,10 @@
+id,title,type,rating,votes,popularity,release_date,overview,genres,year,rating_norm,votes_norm,popularity_norm,recency,recency_norm,binge_score,binge_category
+200007,Squid Game,tv,8.0,1200000,300.0,2021-09-17,"Players compete in deadly survival games for a cash prize.","Thriller, Drama",2021.0,0.80,1.0,1.0,2021.0,0.82,95.5,High
+200001,Me Before You,movie,7.4,250000,120.5,2016-06-03,"A young woman forms an unexpected bond with a recently paralyzed man she cares for.","Romance, Drama",2016.0,0.74,0.2083333333,0.4016666667,2016.0,0.55,64.8,High
+200002,Veronica,movie,6.2,90000,95.3,2017-08-25,"A teenage girl experiences supernatural forces after using a Ouija board.","Horror",2017.0,0.62,0.075,0.3176666667,2017.0,0.58,52.2,Medium
+200003,Yes Boss,movie,6.8,15000,60.2,1997-07-18,"An ambitious man works for a manipulative boss and falls in love.","Romance, Comedy",1997.0,0.68,0.0125,0.2006666667,1997.0,0.25,45.3,Medium
+200004,Haseen Dillruba,movie,6.9,50000,110.7,2021-07-02,"A wife suspected of murder reveals her complicated marriage story.","Thriller, Romance",2021.0,0.69,0.0416666667,0.369,2021.0,0.82,64.7,High
+200005,Jab We Met,movie,7.9,60000,130.9,2007-10-26,"A depressed man meets a lively woman and his life changes.","Romance, Comedy",2007.0,0.79,0.05,0.4363333333,2007.0,0.40,68.2,High
+200006,Dhurandhar,movie,7.0,10000,140.0,2025-01-01,"An action-packed story of power and revenge.","Action, Drama",2025.0,0.70,0.0083333333,0.4666666667,2025.0,0.95,70.5,High
+200008,My Demon,tv,7.8,30000,180.0,2023-11-24,"A demon loses his powers and partners with a strong woman.","Romance, Fantasy",2023.0,0.78,0.025,0.6,2023.0,0.90,78.8,High
+200009,Business Proposal,tv,8.1,40000,190.0,2022-02-28,"A woman pretends to be her friend on a blind date with her CEO.","Romance, Comedy",2022.0,0.81,0.0333333333,0.6333333333,2022.0,0.85,80.4,High
