@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact - Binge Score</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<section class="contact-section">
+
+    <div class="contact-container">
+
+        <h1>Contact Us 📩</h1>
+        <p class="subtitle">Have questions or feedback? We'd love to hear from you!</p>
+
+        <form class="contact-form">
+
+            <input type="text" placeholder="Your Name" required>
+
+            <input type="email" placeholder="Your Email" required>
+
+            <textarea placeholder="Your Message..." rows="5" required></textarea>
+
+            <button type="submit">Send Message 🚀</button>
+
+        </form>
+
+        <!-- Optional info -->
+        <div class="contact-info">
+            <p>📧 support@bingescore.com</p>
+            <p>📍 India</p>
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+
+</body>
+</html>

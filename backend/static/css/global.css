@@ -14,17 +14,18 @@ body {
 
 /* Navbar */
 .navbar {
-    position: absolute;   /* IMPORTANT */
-    top: 0;
+    position: relative;   /* FIXED */
     width: 100%;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 20px 40px;
+    padding: 18px 40px;
 
-    background: transparent;  /* transparent navbar */
+    background-color: #0f0f0f;  /* solid background */
+    border-bottom: 1px solid #1f1f1f;
+
     z-index: 1000;
 }
 
