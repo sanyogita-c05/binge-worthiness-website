@@ -1,0 +1,150 @@
+/* BODY */
+.score-page {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+    color: white;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 40px;
+    color: #ff4d88;
+}
+
+header span {
+    color: #ff0055;
+}
+
+header p {
+    color: #bbb;
+}
+
+/* CARD */
+.calculator-card {
+    background: linear-gradient(145deg, #1a1a2e, #2a1f3d);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255, 0, 150, 0.2);
+}
+
+/* GRID */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* INPUT GROUP */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.input-group input,
+.input-group select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #111;
+    color: white;
+}
+
+/* SLIDER */
+.slider {
+    accent-color: #ff4d88;
+}
+
+/* BUTTON */
+.btn-calculate {
+    margin-top: 25px;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #ff0055;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-calculate:hover {
+    background: #ff4d88;
+    transform: scale(1.02);
+}
+
+/* RESULT SECTION */
+.result-display {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* SCORE CIRCLE */
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff0055, #1a1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(255, 0, 150, 0.5);
+}
+
+.score-circle span {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* DETAILS */
+.score-details h2 {
+    margin-bottom: 10px;
+}
+
+.score-details p {
+    color: #bbb;
+}
+
+/* BADGE */
+.badge {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #ff4d88;
+    font-size: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-display {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

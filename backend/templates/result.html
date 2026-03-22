@@ -3,29 +3,39 @@
   <head>
     <title>Result</title>
 
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/global.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   </head>
 
   <body>
+
     <div id="navbar"></div>
 
     <section class="result-section">
-      <h1>{{ title }}</h1>
 
-      <div class="result-card">
-        <h2>🎯 Binge Score: {{ score }}/100</h2>
+      <div class="result-container">
 
-        <h3>{{ category }}</h3>
+        <h1 class="movie-title">{{ title }}</h1>
 
-        <p>📊 Confidence: {{ confidence }}%</p>
+        <div class="result-card">
+
+          <div class="score-circle">
+            {{ score }}
+          </div>
+
+          <h2>Binge Score</h2>
+
+          <p class="category">{{ category }}</p>
+
+          <p class="confidence">Confidence: {{ confidence }}%</p>
+
+        </div>
+
+        <a href="{{ url_for('score') }}" class="back-btn">← Try Another</a>
+
       </div>
 
-      <a href="{{ url_for('score') }}" class="back-btn">⬅ Try Another</a>
     </section>
 
-    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
   </body>
 </html>
