@@ -12,6 +12,8 @@ body {
     color: white;
 }
 
+
+
 /* Navbar */
 .navbar {
     position: relative;   /* FIXED */
@@ -70,3 +72,9 @@ body {
 .login-btn:hover {
     background: #ff1f1f;
 }
+
+
+select[multiple] {
+  height: 120px;
+}
+

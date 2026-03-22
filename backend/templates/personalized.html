@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <title>Personalized Binge Score</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<section class="form-section">
+
+  <h1>👤 Personalized Binge Score</h1>
+
+  <form action="/personalized_result" method="POST" class="form-card">
+
+    <label>🎬 Movie / Series</label>
+    <input type="text" name="movie" required>
+
+    <label>🎭 Favorite Genres</label>
+    <select name="genres" multiple>
+      <option>Drama</option>
+      <option>Thriller</option>
+      <option>Comedy</option>
+      <option>Romance</option>
+      <option>Action</option>
+      <option>Crime</option>
+    </select>
+
+    <label>😊 Mood</label>
+    <select name="mood">
+      <option>Thriller</option>
+      <option>Romance</option>
+      <option>Comedy</option>
+      <option>Dark</option>
+      <option>Feel-good</option>
+    </select>
+
+    <label>⏱ Available Time (hrs)</label>
+    <input type="number" name="time" step="0.5" required>
+
+    <button type="submit">Get Personalized Score 🚀</button>
+
+  </form>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+
+</body>
+</html>

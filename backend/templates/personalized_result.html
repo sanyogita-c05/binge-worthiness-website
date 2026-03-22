@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <title>Personalized Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<section class="result-section">
+
+  <h1>{{ title }}</h1>
+
+  <div class="result-card">
+
+    <h2>🔥 Personalized Score: {{ score }}/100</h2>
+
+    <p>📊 Confidence: {{ confidence }}%</p>
+
+    <hr>
+
+    <p>🎭 Your Genres: {{ genres }}</p>
+    <p>😊 Mood: {{ mood }}</p>
+    <p>⏱ Time Available: {{ time }} hrs</p>
+
+    <hr>
+
+    <p>{{ message }}</p>
+
+  </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+
+</body>
+</html>

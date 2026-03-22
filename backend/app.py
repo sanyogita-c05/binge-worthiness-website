@@ -53,7 +53,6 @@ def navbar():
 
 
 
-
 @app.route('/trends')
 def trends():
     return render_template('trends.html')
@@ -237,6 +236,134 @@ def analytics():
         years=trend_data['year'].tolist(),
         trend_popularity=trend_data['popularity'].tolist()
     )
+
+
+
+
+
+
+
+
+# -------------------- PERSONALIZED FEATURE -------------------- #
+
+@app.route('/personalized')
+def personalized():
+    return render_template('personalized.html')
+
+
+@app.route('/personalized_result', methods=['POST'])
+def personalized_result():
+
+    user_input = request.form['movie'].lower()
+    selected_genres = request.form.getlist('genres')
+    mood = request.form['mood']
+    time_available = float(request.form['time'])
+
+    result = df[df['title'].str.lower().str.contains(user_input)]
+
+    if not result.empty:
+        movie = result.iloc[0]
+
+        base_score = movie['binge_score']
+
+        # ---------------------------
+        # 🎭 CLEAN GENRE LIST (VERY IMPORTANT FIX)
+        # ---------------------------
+        movie_genres_raw = str(movie['genres'])
+        movie_genre_list = [g.strip().lower() for g in movie_genres_raw.split(',')]
+
+        # ---------------------------
+        # 🎭 Genre Matching (SMART)
+        # ---------------------------
+        match_count = sum(1 for g in selected_genres if g.lower() in movie_genre_list)
+
+        if selected_genres:
+            genre_score = (match_count / len(selected_genres)) * 20
+        else:
+            genre_score = 0
+
+        # ---------------------------
+        # 😊 Mood Mapping (CRITICAL FIX)
+        # ---------------------------
+        mood_map = {
+            "thriller": ["thriller", "mystery", "crime", "action"],
+            "romance": ["romance", "drama"],
+            "comedy": ["comedy"],
+            "dark": ["crime", "mystery", "drama"],
+            "feel-good": ["comedy", "family", "romance"]
+        }
+
+        mapped_genres = mood_map.get(mood.lower(), [])
+
+        if any(g in movie_genre_list for g in mapped_genres):
+            mood_score = 10
+        else:
+            mood_score = -5   # softer penalty
+
+        # ---------------------------
+        # ⏱ Time Logic (REALISTIC)
+        # ---------------------------
+        duration = movie.get('runtime', 120)  # minutes
+        duration_hours = duration / 60
+
+        ratio = time_available / duration_hours
+
+        if ratio >= 1:
+            time_score = 10
+        elif ratio >= 0.5:
+            time_score = 0
+        else:
+            time_score = -10
+
+        # ---------------------------
+        # 🧠 FINAL SCORE (BALANCED)
+        # ---------------------------
+        personalized_score = (
+            (0.6 * base_score) +   # weight base score
+            genre_score +
+            mood_score +
+            time_score
+        )
+
+        personalized_score = max(0, min(100, personalized_score))
+
+        # ---------------------------
+        # 📊 Confidence (BETTER)
+        # ---------------------------
+        confidence = round(
+            max(30, min(100, 50 + genre_score + mood_score)),
+            2
+        )
+
+        # ---------------------------
+        # 💬 SMART MESSAGE
+        # ---------------------------
+        if personalized_score > 75:
+            message = f"🔥 Perfect match! '{movie['title']}' will hook you."
+        elif personalized_score > 50:
+            message = f"👍 Decent choice, but may not fully match your mood/time."
+        else:
+            message = f"⚠️ Not ideal right now based on your mood or time."
+
+        return render_template(
+            'personalized_result.html',
+            title=movie['title'],
+            score=round(personalized_score, 2),
+            confidence=confidence,
+            genres=", ".join(selected_genres),
+            mood=mood,
+            time=time_available,
+            message=message
+        )
+
+    else:
+        return render_template(
+            'personalized_result.html',
+            title="Not Found",
+            score="N/A",
+            confidence="N/A",
+            message="Try another movie"
+        )
 
 # -------------------- RUN -------------------- #
 
