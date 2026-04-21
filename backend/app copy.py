@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import os
-import random
 from mood_engine import get_mood_recommendations
 
 # Correct paths based on your new structure
@@ -12,7 +11,7 @@ app = Flask(
 )
 
 # Load dataset
-data_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
+data_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_final.csv")
 df = pd.read_csv(data_path)
 
 
@@ -42,51 +41,6 @@ def mood_page():
 def time_page():
     return render_template('time.html')
 
-
-@app.route('/time_result', methods=['POST'])
-def time_result():
-    time_available = float(request.form['time'])
-    results = []
-
-    for _, row in df.iterrows():
-
-        total_time = row['total_watch_time']
-        runtime = row['runtime']
-        episodes = row['episodes']
-
-        # Skip invalid zero/negative times
-        if total_time <= 0 or runtime <= 0:
-           continue
-
-        # Recommendation logic
-        if total_time <= time_available:
-            status = "✅ Can Finish Completely"
-        elif total_time <= time_available * 2:
-            status = "⏳ Good to Start"
-        else:
-            continue
-
-        results.append({
-            'title': row['title'],
-            'type': row['type'],
-            'runtime': runtime,
-            'episodes': episodes,
-            'total_time': round(total_time, 2),
-            'score': round(row['binge_score'], 2),
-            'status': status
-        })
-
-    # Sort by highest binge score
-    results = sorted(results, key=lambda x: x['score'], reverse=True)
-
-    # Top 50 results
-    results = results[:50]
-
-    return render_template(
-        'time_result.html',
-        results=results,
-        time=time_available
-    )
 
 @app.route('/recommend')
 def recommend():
