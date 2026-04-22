@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Predictions</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#0f172a,#111827);
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+margin-bottom:25px;
+}
+
+form{
+text-align:center;
+margin-bottom:25px;
+}
+
+select,button{
+padding:10px 14px;
+border:none;
+border-radius:10px;
+font-size:16px;
+margin:5px;
+}
+
+button{
+background:#38bdf8;
+font-weight:bold;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:rgba(255,255,255,0.05);
+border-radius:15px;
+overflow:hidden;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+th{
+color:#38bdf8;
+text-align:left;
+}
+
+tr:hover{
+background:rgba(255,255,255,0.05);
+}
+
+.score{
+font-weight:bold;
+color:#facc15;
+}
+
+a{
+display:inline-block;
+margin-top:20px;
+color:#38bdf8;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>🤖 AI Predicted Binge Scores</h1>
+
+<form method="GET" action="/ai_predictions">
+<select name="top_n">
+<option value="10" {% if selected=='10' %}selected{% endif %}>Top 10</option>
+<option value="20" {% if selected=='20' %}selected{% endif %}>Top 20</option>
+<option value="50" {% if selected=='50' %}selected{% endif %}>Top 50</option>
+<option value="all" {% if selected=='all' %}selected{% endif %}>All</option>
+</select>
+
+<button type="submit">Show</button>
+</form>
+
+<table>
+<tr>
+<th>Rank</th>
+<th>Title</th>
+<th>Predicted Score</th>
+</tr>
+
+{% for movie in movies %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ movie.title }}</td>
+<td class="score">{{ movie.score }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<a href="/stage5">⬅ Back to Stage 5</a>
+
+</div>
+</body>
+</html>

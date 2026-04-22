@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Algorithms Used</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#0f172a,#111827);
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+padding:22px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+background:rgba(255,255,255,0.10);
+}
+
+h2{
+color:#38bdf8;
+margin-bottom:12px;
+}
+
+p{
+line-height:1.7;
+color:#d1d5db;
+}
+
+a{
+display:inline-block;
+margin-top:25px;
+color:#38bdf8;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>🧠 Algorithms Used in Our Project</h1>
+
+<div class="grid">
+
+<div class="card">
+<h2>⭐ Weighted Scoring</h2>
+<p>
+Combines rating, popularity, completion rate and rewatch value using custom weights to generate binge score.
+</p>
+</div>
+
+<div class="card">
+<h2>📈 Ranking Algorithm</h2>
+<p>
+Sorts all movies and shows from highest to lowest predicted binge score.
+</p>
+</div>
+
+<div class="card">
+<h2>🤖 Machine Learning Prediction</h2>
+<p>
+Uses trained ML model from <b>model.py</b> to predict binge-worthiness for unseen titles.
+</p>
+</div>
+
+<div class="card">
+<h2>🔍 Filtering Logic</h2>
+<p>
+Filters recommendations based on time available, mood, type and user preferences.
+</p>
+</div>
+
+<div class="card">
+<h2>📊 Feature Engineering</h2>
+<p>
+Created features like normalized rating, recency, runtime, total watch time and trend score.
+</p>
+</div>
+
+<div class="card">
+<h2>📉 Error Evaluation</h2>
+<p>
+Measured prediction quality using MAE, RMSE, Accuracy and R² Score.
+</p>
+</div>
+
+</div>
+
+<a href="/stage5">⬅ Back to Stage 5</a>
+
+</div>
+</body>
+</html>

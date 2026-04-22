@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Evaluation Metrics</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#0f172a,#111827);
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+padding:22px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.1);
+text-align:center;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+background:rgba(255,255,255,0.10);
+}
+
+.label{
+font-size:18px;
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.value{
+font-size:28px;
+font-weight:bold;
+color:#facc15;
+}
+
+.note{
+margin-top:30px;
+line-height:1.7;
+color:#cbd5e1;
+}
+
+a{
+display:inline-block;
+margin-top:25px;
+color:#38bdf8;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>📊 Model Evaluation Metrics</h1>
+
+<div class="grid">
+
+<div class="card">
+<div class="label">Accuracy</div>
+<div class="value">{{ metrics.accuracy }}</div>
+</div>
+
+<div class="card">
+<div class="label">Precision</div>
+<div class="value">{{ metrics.precision }}</div>
+</div>
+
+<div class="card">
+<div class="label">Recall</div>
+<div class="value">{{ metrics.recall }}</div>
+</div>
+
+<div class="card">
+<div class="label">MAE</div>
+<div class="value">{{ metrics.mae }}</div>
+</div>
+
+<div class="card">
+<div class="label">RMSE</div>
+<div class="value">{{ metrics.rmse }}</div>
+</div>
+
+<div class="card">
+<div class="label">R² Score</div>
+<div class="value">{{ metrics.r2 }}</div>
+</div>
+
+</div>
+
+<div class="note">
+<b>Interpretation:</b><br>
+Higher Accuracy, Precision, Recall and R² indicate stronger model performance.<br>
+Lower MAE and RMSE indicate lower prediction error.
+</div>
+
+<a href="/stage5">⬅ Back to Stage 5</a>
+
+</div>
+</body>
+</html>

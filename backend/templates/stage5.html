@@ -4,135 +4,297 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stage 5 - Model Building</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+  :root {
+    --bg: #050810;
+    --surface: #0b0f1e;
+    --card: #0d1220;
+    --cyan: #00e5ff;
+    --cyan-dim: rgba(0,229,255,0.08);
+    --cyan-glow: rgba(0,229,255,0.25);
+    --violet: #7c6eff;
+    --pink: #ff4eb8;
+    --text: #cdd6f4;
+    --muted: #4a5270;
+    --border: rgba(0,229,255,0.12);
+  }
 
-body{
-font-family:Arial, sans-serif;
-background:linear-gradient(135deg,#0f172a,#111827);
-color:white;
-padding:30px;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.container{
-max-width:1200px;
-margin:auto;
-}
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-h1{
-text-align:center;
-margin-bottom:10px;
-font-size:42px;
-}
+  /* ── Animated grid background ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+    animation: gridPulse 8s ease-in-out infinite;
+  }
+  @keyframes gridPulse {
+    0%,100% { opacity: 0.6; } 50% { opacity: 1; }
+  }
 
-.subtitle{
-text-align:center;
-color:#cbd5e1;
-margin-bottom:35px;
-}
+  /* ── Orb glow blobs ── */
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(80px); pointer-events: none; z-index: 0;
+  }
+  .orb-1 {
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(0,229,255,0.12), transparent 70%);
+    top: -100px; right: -80px;
+    animation: float1 12s ease-in-out infinite;
+  }
+  .orb-2 {
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(124,110,255,0.1), transparent 70%);
+    bottom: 80px; left: -60px;
+    animation: float2 15s ease-in-out infinite;
+  }
+  @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,40px)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-30px)} }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:20px;
-}
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 72px 32px 80px;
+  }
 
-.card{
-background:rgba(255,255,255,0.06);
-border:1px solid rgba(255,255,255,0.12);
-border-radius:20px;
-padding:24px;
-transition:0.3s;
-}
+  /* ── Header ── */
+  .stage-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cyan); padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px; background: var(--cyan-dim);
+    margin-bottom: 28px;
+    animation: fadeDown 0.5s ease both;
+  }
+  .stage-label::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-.card:hover{
-transform:translateY(-8px);
-background:rgba(255,255,255,0.10);
-}
+  h1 {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 800; line-height: 1.05;
+    color: #fff; margin-bottom: 14px;
+    animation: fadeDown 0.5s 0.1s ease both;
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 64px;
+    animation: fadeDown 0.5s 0.15s ease both;
+  }
 
-h2{
-color:#38bdf8;
-margin-bottom:12px;
-}
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-p,li{
-color:#d1d5db;
-line-height:1.7;
-}
+  /* ── Cards ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
 
-ul{
-padding-left:18px;
-}
+  .card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .card:nth-child(1) { animation-delay: 0.2s; }
+  .card:nth-child(2) { animation-delay: 0.3s; }
+  .card:nth-child(3) { animation-delay: 0.4s; }
 
-.code{
-background:#1e293b;
-padding:12px;
-border-radius:10px;
-color:#facc15;
-font-family:monospace;
-margin-top:10px;
-}
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-.btn{
-display:inline-block;
-margin-top:30px;
-background:#38bdf8;
-color:#00111a;
-padding:12px 20px;
-border-radius:12px;
-text-decoration:none;
-font-weight:bold;
-}
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px var(--cyan-glow);
+    border-color: rgba(0,229,255,0.3);
+  }
+
+  /* scan-line sweep on hover */
+  .card::after {
+    content: '';
+    position: absolute; top: -100%; left: 0; right: 0; height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(0,229,255,0.04), transparent);
+    transition: top 0.5s ease;
+  }
+  .card:hover::after { top: 100%; }
+
+  /* corner accent */
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 60px; height: 60px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+    border-radius: 20px 0 0 0;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .card:nth-child(1) .card-icon { background: rgba(0,229,255,0.08); }
+  .card:nth-child(2) .card-icon { background: rgba(124,110,255,0.08); border-color: rgba(124,110,255,0.2); }
+  .card:nth-child(3) .card-icon { background: rgba(255,78,184,0.08); border-color: rgba(255,78,184,0.2); }
+
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 0.15em; margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-size: 1.25rem; font-weight: 700;
+    color: #fff; margin-bottom: 10px; line-height: 1.2;
+  }
+  .card:nth-child(1) .card-title { color: var(--cyan); }
+  .card:nth-child(2) .card-title { color: #a89fff; }
+  .card:nth-child(3) .card-title { color: #ff80cf; }
+
+  .card-desc {
+    font-size: 13.5px; color: var(--muted);
+    line-height: 1.7; font-weight: 400;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .card-arrow {
+    position: absolute; bottom: 24px; right: 24px;
+    width: 32px; height: 32px;
+    border: 1px solid var(--border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--muted);
+    transition: all 0.3s;
+  }
+  .card:hover .card-arrow {
+    background: var(--cyan); border-color: var(--cyan);
+    color: #000; transform: rotate(45deg);
+  }
+  .card:nth-child(2):hover .card-arrow { background: var(--violet); border-color: var(--violet); }
+  .card:nth-child(3):hover .card-arrow { background: var(--pink); border-color: var(--pink); }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 52px 0 36px;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+
+  /* ── Back button ── */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 500;
+    color: var(--cyan); text-decoration: none;
+    padding: 12px 22px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--cyan-dim);
+    transition: all 0.25s;
+    animation: fadeUp 0.5s 0.55s ease both;
+  }
+  .back-btn:hover {
+    background: rgba(0,229,255,0.14);
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px var(--cyan-glow);
+    transform: translateX(-4px);
+  }
+  .back-btn span { font-size: 16px; }
+
+  @media (max-width: 640px) {
+    .wrapper { padding: 48px 20px 60px; }
+    h1 { font-size: 2.2rem; }
+  }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-<h1>🤖 Stage 5: Model Building</h1>
-<p class="subtitle">How We Predict Binge Score Using Data Science</p>
+<div class="wrapper">
 
-<div class="grid">
+  <div class="stage-label">Stage 05 / Model Building</div>
 
-<div class="card">
-<h2>⭐ Binge Score Prediction</h2>
-<p>We calculate binge-worthiness using weighted features:</p>
-<div class="code">
-Score = 0.4(Rating) + 0.3(Completion) + 0.2(Popularity) + 0.1(Rewatch)
-</div>
-</div>
+  <h1>Predict.<br><em>Evaluate. Deploy.</em></h1>
+  <p class="subtitle">// How We Predict Binge Score Using Data Science</p>
 
-<div class="card">
-<h2>📊 Evaluation Metrics</h2>
-<ul>
-<li>Accuracy</li>
-<li>Precision</li>
-<li>Recall</li>
-<li>CTR</li>
-<li>User Satisfaction</li>
-<li>Watch Time Increase</li>
-</ul>
-</div>
+  <div class="grid">
 
-<div class="card">
-<h2>🧠 Algorithms Used</h2>
-<ul>
-<li>Weighted Scoring</li>
-<li>Feature Importance</li>
-<li>Ranking Logic</li>
-<li>Prediction Model</li>
-</ul>
-</div>
+    <a class="card" href="/ai_predictions">
+      <div class="card-icon">⭐</div>
+      <div class="card-num">01 — PREDICTIONS</div>
+      <div class="card-title">Binge Score<br>Prediction</div>
+      <p class="card-desc">View AI-predicted binge scores for all movies in the dataset.</p>
+      <div class="card-arrow">↗</div>
+    </a>
 
-</div>
+    <a class="card" href="/evaluation_metrics">
+      <div class="card-icon">📊</div>
+      <div class="card-num">02 — EVALUATION</div>
+      <div class="card-title">Evaluation<br>Metrics</div>
+      <p class="card-desc">Inspect model performance metrics and evaluation results.</p>
+      <div class="card-arrow">↗</div>
+    </a>
 
-<a href="/pipeline" class="btn">⬅ Back to Pipeline</a>
+    <a class="card" href="/algorithms_used">
+      <div class="card-icon">🧠</div>
+      <div class="card-num">03 — ALGORITHMS</div>
+      <div class="card-title">Algorithms<br>Used</div>
+      <p class="card-desc">Explore the algorithms powering our binge score predictions.</p>
+      <div class="card-arrow">↗</div>
+    </a>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <a href="/pipeline" class="back-btn">
+    <span>←</span> Back to Pipeline
+  </a>
 
 </div>
 

@@ -1,83 +1,387 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive Data Science Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#111827);color:#fff;padding:30px}
-h1{text-align:center;margin-bottom:8px}
-.sub{text-align:center;color:#cbd5e1;margin-bottom:30px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:22px;border-radius:20px;transition:.25s;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}
-.card:hover{transform:translateY(-8px) scale(1.02);background:rgba(255,255,255,.1)}
-.icon{font-size:34px}
-.num{display:inline-block;background:#38bdf8;color:#00111a;padding:4px 10px;border-radius:999px;font-weight:700;margin:10px 0}
-.title{font-size:20px;font-weight:700}
-.desc{color:#d1d5db;line-height:1.5;margin-top:8px}
-.footer{text-align:center;margin-top:28px;color:#94a3b8}
+  :root {
+    --bg: #050810;
+    --card: #0d1220;
+    --border: rgba(0,229,255,0.12);
+    --cyan: #00e5ff;
+    --cyan-dim: rgba(0,229,255,0.08);
+    --cyan-glow: rgba(0,229,255,0.25);
+    --violet: #7c6eff;
+    --pink: #ff4eb8;
+    --green: #00ffb3;
+    --amber: #ffb830;
+    --text: #cdd6f4;
+    --muted: #3d4466;
+    --muted2: #5a6180;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.035) 1px, transparent 1px);
+    background-size: 52px 52px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .orb { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
+  .orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,229,255,0.1), transparent 70%);
+    top: -150px; right: -100px;
+    animation: f1 14s ease-in-out infinite;
+  }
+  .orb-2 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(124,110,255,0.09), transparent 70%);
+    bottom: 0; left: -80px;
+    animation: f2 18s ease-in-out infinite;
+  }
+  @keyframes f1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,50px)} }
+  @keyframes f2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-40px)} }
+
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 1300px; margin: 0 auto;
+    padding: 72px 32px 80px;
+  }
+
+  /* ── Header ── */
+  .header { text-align: center; margin-bottom: 64px; }
+  .header-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cyan); padding: 6px 16px;
+    border: 1px solid var(--border); border-radius: 100px;
+    background: var(--cyan-dim); margin-bottom: 24px;
+    animation: fadeDown 0.5s ease both;
+  }
+  .header-tag::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cyan); box-shadow: 0 0 8px var(--cyan);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  h1 {
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
+    font-weight: 800; line-height: 1.08; color: #fff;
+    margin-bottom: 14px;
+    animation: fadeDown 0.5s 0.1s ease both;
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--muted2);
+    animation: fadeDown 0.5s 0.15s ease both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── Pipeline scroll container ── */
+  .pipeline-scroll {
+    overflow-x: auto;
+    padding-bottom: 12px;
+    /* hide scrollbar but keep scroll */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,229,255,0.2) transparent;
+  }
+  .pipeline-scroll::-webkit-scrollbar { height: 4px; }
+  .pipeline-scroll::-webkit-scrollbar-track { background: transparent; }
+  .pipeline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0,229,255,0.2); border-radius: 4px;
+  }
+
+  /* ── Pipeline row ── */
+  .pipeline-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-width: max-content; /* KEY: prevents wrapping */
+  }
+
+  /* connector */
+  .connector {
+    display: flex; align-items: center;
+    width: 32px; flex-shrink: 0;
+    position: relative;
+  }
+  .connector::before {
+    content: '';
+    display: block; width: 100%; height: 2px;
+    background: linear-gradient(90deg, rgba(0,229,255,0.2), rgba(0,229,255,0.4));
+  }
+  .connector::after {
+    content: '';
+    position: absolute;
+    width: 60%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    animation: flow 2s linear infinite;
+  }
+  @keyframes flow { from{left:-60%} to{left:100%} }
+
+  /* ── Card ── */
+  .card {
+    width: 210px;          /* fixed width — all 5 always visible */
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px 20px 32px;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px var(--cyan-glow);
+  }
+  .card::after {
+    content: '';
+    position: absolute; top: -100%; left: 0; right: 0; height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(0,229,255,0.04), transparent);
+    transition: top 0.5s ease;
+  }
+  .card:hover::after { top: 100%; }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 44px; height: 44px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+    border-radius: 20px 0 0 0;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 12px;
+    display: inline-block; padding: 3px 10px; border-radius: 100px;
+    border: 1px solid; font-weight: 500;
+  }
+  .card-icon { font-size: 26px; margin-bottom: 12px; display: block; }
+  .card-title {
+    font-size: 1rem; font-weight: 700;
+    color: #fff; margin-bottom: 8px; line-height: 1.25;
+  }
+  .card-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted2);
+    line-height: 1.7;
+  }
+
+  /* color theming */
+  .s1 .card-step { color:var(--cyan);   border-color:rgba(0,229,255,0.25);   background:rgba(0,229,255,0.06); }
+  .s2 .card-step { color:var(--violet); border-color:rgba(124,110,255,0.25); background:rgba(124,110,255,0.06); }
+  .s3 .card-step { color:var(--pink);   border-color:rgba(255,78,184,0.25);  background:rgba(255,78,184,0.06); }
+  .s4 .card-step { color:var(--green);  border-color:rgba(0,255,179,0.25);   background:rgba(0,255,179,0.06); }
+  .s5 .card-step { color:var(--amber);  border-color:rgba(255,184,48,0.25);  background:rgba(255,184,48,0.06); }
+  .s6 .card-step { color:var(--cyan);   border-color:rgba(0,229,255,0.25);   background:rgba(0,229,255,0.06); }
+  .s7 .card-step { color:var(--violet); border-color:rgba(124,110,255,0.25); background:rgba(124,110,255,0.06); }
+
+  .s1 .card-title { color:var(--cyan); }
+  .s2 .card-title { color:#a89fff; }
+  .s3 .card-title { color:#ff80cf; }
+  .s4 .card-title { color:#5dffd2; }
+  .s5 .card-title { color:#ffd080; }
+  .s6 .card-title { color:var(--cyan); }
+  .s7 .card-title { color:#a89fff; }
+
+  .s1:hover { border-color:rgba(0,229,255,0.35)   !important; }
+  .s2:hover { border-color:rgba(124,110,255,0.35) !important; }
+  .s3:hover { border-color:rgba(255,78,184,0.35)  !important; }
+  .s4:hover { border-color:rgba(0,255,179,0.35)   !important; }
+  .s5:hover { border-color:rgba(255,184,48,0.35)  !important; }
+  .s6:hover { border-color:rgba(0,229,255,0.35)   !important; }
+  .s7:hover { border-color:rgba(124,110,255,0.35) !important; }
+
+  /* stagger */
+  .s1{animation-delay:0.15s} .s2{animation-delay:0.22s}
+  .s3{animation-delay:0.29s} .s4{animation-delay:0.36s}
+  .s5{animation-delay:0.43s} .s6{animation-delay:0.50s}
+  .s7{animation-delay:0.57s}
+
+  /* ── Row 2 (non-scrollable, centered) ── */
+  .row2-wrap {
+    display: flex; justify-content: center;
+    margin-top: 28px;
+  }
+  .row2-wrap .pipeline-row {
+    min-width: unset;
+  }
+  .row2-wrap .card { width: 260px; }
+
+  /* ── Down connector ── */
+  .row-connector {
+    display: flex; align-items: center; justify-content: center;
+    height: 40px; gap: 10px; margin-top: 4px;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+  .row-connector-line {
+    flex: 1; max-width: 200px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+  .row-connector-node {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid rgba(0,229,255,0.25);
+    background: rgba(0,229,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--cyan); position: relative;
+  }
+  .row-connector-node::before {
+    content: '';
+    position: absolute; inset: -4px; border-radius: 50%;
+    border: 1px solid rgba(0,229,255,0.1);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.35);opacity:0} }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center; margin-top: 56px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 0.1em;
+    animation: fadeUp 0.5s 0.65s ease both;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .footer::before, .footer::after {
+    content: ''; flex: 1; max-width: 140px; height: 1px;
+  }
+  .footer::before { background: linear-gradient(90deg, transparent, var(--border)); }
+  .footer::after  { background: linear-gradient(90deg, var(--border), transparent); }
 </style>
 </head>
-
 <body>
 
-<h1>🚀 Interactive Data Science Pipeline</h1>
-<div class='sub'>Hover over each stage to explore our end-to-end project workflow</div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-<div class='grid'>
+<div class="wrapper">
 
-<div class='card'>
-<div class='icon'>📥</div>
-<div class='num'>Step 1</div>
-<div class='title'>Data Collection</div>
-<div class='desc'>Gathered movie and TV metadata such as ratings, popularity, genres, release dates, runtime and episodes.</div>
+  <div class="header">
+    <div class="header-tag">End-to-End Workflow</div>
+    <h1>Interactive Data<br><em>Science Pipeline</em></h1>
+    <p class="subtitle">// Hover over each stage to explore the project workflow</p>
+  </div>
+
+  <!-- Row 1: Steps 1–5 (scrollable) -->
+  <div class="pipeline-scroll">
+    <div class="pipeline-row">
+
+      <div class="card s1">
+        <span class="card-step">Step 01</span>
+        <span class="card-icon">📥</span>
+        <div class="card-title">Data Collection</div>
+        <p class="card-desc">Gathered movie & TV metadata — ratings, popularity, genres, dates, runtime and episodes.</p>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="card s2">
+        <span class="card-step">Step 02</span>
+        <span class="card-icon">🧹</span>
+        <div class="card-title">Data Cleaning</div>
+        <p class="card-desc">Handled missing values, standardized formats and removed duplicates.</p>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="card s3">
+        <span class="card-step">Step 03</span>
+        <span class="card-icon">🧠</span>
+        <div class="card-title">Feature Engineering</div>
+        <p class="card-desc">Created binge score, trend score, normalized metrics and watch time features.</p>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="card s4">
+        <span class="card-step">Step 04</span>
+        <span class="card-icon">📊</span>
+        <div class="card-title">Analysis & Ranking</div>
+        <p class="card-desc">Applied weighted scoring, filtering and ranking to identify best content.</p>
+      </div>
+
+      <div class="connector"></div>
+
+      <a class="card s5" href="/stage5">
+        <span class="card-step">Step 05</span>
+        <span class="card-icon">🎯</span>
+        <div class="card-title">Model Building</div>
+        <p class="card-desc">Built recommendation systems, binge score prediction and forecasting models.</p>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Down arrow -->
+  <div class="row-connector">
+    <div class="row-connector-line"></div>
+    <div class="row-connector-node">↓</div>
+    <div class="row-connector-line"></div>
+  </div>
+
+  <!-- Row 2: Steps 6–7 (centered) -->
+  <div class="row2-wrap">
+    <div class="pipeline-row">
+
+      <div class="card s6">
+        <span class="card-step">Step 06</span>
+        <span class="card-icon">📈</span>
+        <div class="card-title">Visualization</div>
+        <p class="card-desc">Displayed insights through dashboards, cards, trends and comparison pages.</p>
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="card s7">
+        <span class="card-step">Step 07</span>
+        <span class="card-icon">🌐</span>
+        <div class="card-title">Deployment</div>
+        <p class="card-desc">Integrated everything into a Flask web app for real-time interaction.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">Built for the Binge-Worthiness Score Project</div>
+
 </div>
-
-<div class='card'>
-<div class='icon'>🧹</div>
-<div class='num'>Step 2</div>
-<div class='title'>Data Cleaning</div>
-<div class='desc'>Handled missing values, standardized formats, removed duplicates and prepared usable structured data.</div>
-</div>
-
-<div class='card'>
-<div class='icon'>🧠</div>
-<div class='num'>Step 3</div>
-<div class='title'>Feature Engineering</div>
-<div class='desc'>Created binge score, trend score, normalized metrics and total watch time features.</div>
-</div>
-
-<div class='card'>
-<div class='icon'>📊</div>
-<div class='num'>Step 4</div>
-<div class='title'>Analysis & Ranking</div>
-<div class='desc'>Applied weighted scoring, filtering and ranking algorithms to identify best content.</div>
-</div>
-
-<div class='card' onclick="window.location.href='/stage5'">
-<div class='icon'>🎯</div>
-<div class='num'>Step 5</div>
-<div class='title'>Model Building</div>
-<div class='desc'>Built recommendation systems, binge score prediction and trend forecasting models.</div>
-</div>
-
-<div class='card'>
-<div class='icon'>📈</div>
-<div class='num'>Step 6</div>
-<div class='title'>Visualization</div>
-<div class='desc'>Displayed insights through dashboards, cards, trends and comparison pages.</div>
-</div>
-
-<div class='card'>
-<div class='icon'>🌐</div>
-<div class='num'>Step 7</div>
-<div class='title'>Deployment</div>
-<div class='desc'>Integrated everything into a Flask web application for real-time interaction.</div>
-</div>
-
-</div>
-
-<div class='footer'>Built for the Binge-Worthiness Score Project</div>
 
 </body>
 </html>
