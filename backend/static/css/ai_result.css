@@ -1,0 +1,53 @@
+.result-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-container {
+    text-align: center;
+    width: 450px;
+}
+
+.result-card {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+}
+
+.result-card h2 {
+    margin-bottom: 10px;
+}
+
+.score {
+    font-size: 40px;
+    color: #e50914;
+    margin: 15px 0;
+}
+
+.result-card p {
+    margin: 6px 0;
+    color: #ccc;
+}
+
+.ai-note {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #888;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: white;
+    background: #e50914;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.back-btn:hover {
+    background: #ff1f2e;
+}

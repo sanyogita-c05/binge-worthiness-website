@@ -1,37 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>AI Result</title>
+    <title>AI Binge Result</title>
 
-    <style>
-        body {
-            background: #0f0f0f;
-            color: white;
-            text-align: center;
-            font-family: Arial;
-        }
-
-        .score {
-            font-size: 50px;
-            color: red;
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_result.css') }}">
 </head>
 
 <body>
 
-<h1>🎯 AI Predicted Binge Score</h1>
+<div id="navbar"></div>
 
-<h2>{{ title }}</h2>
+<section class="result-section">
+    <div class="result-container">
 
-<div class="score">{{ score }}</div>
+        <h1>🎯 AI Predicted Binge Score</h1>
 
-<p>⏱ Runtime (per episode): {{ runtime }} minutes</p>
-<p>📺 Episodes: {{ episodes }}</p>
-<p>⏳ Total Watch Time: {{ total_time }} hours</p>
-<p>🎭 Genres: {{ genres }}</p>
+        <div class="result-card">
 
-<p>🤖 AI uses rating, popularity, votes & total watch time</p>
+            <h2>{{ title }}</h2>
+
+            <div class="score">{{ score }}</div>
+
+            <!-- ✅ CONDITIONAL DISPLAY -->
+            {% if episodes > 1 %}
+                <p>⏱ Runtime (per episode): {{ runtime }} minutes</p>
+                <p>📺 Episodes: {{ episodes }}</p>
+                <p>⏳ Total Watch Time: {{ total_watch_time }} hours</p>
+            {% else %}
+                <p>⏱ Runtime: {{ runtime }} minutes</p>
+            {% endif %}
+
+            <p>🎭 Genres: {{ genres }}</p>
+
+            <p class="ai-note">
+                🤖 AI uses rating, popularity, votes & total watch time
+            </p>
+
+        </div>
+
+        <a href="/ai_binge" class="back-btn">← Try Another</a>
+
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 
 </body>
 </html>

@@ -1,20 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>AI Binge Predictor</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_binge.css') }}">
 </head>
 
 <body>
 
-<h1>🤖 AI Binge Score Predictor</h1>
+<div id="navbar"></div>
 
-<form action="/ai_predict" method="POST">
+<section class="ai-section">
+    <div class="ai-container">
 
-    <input type="text" name="movie" placeholder="Enter movie name" required>
+        <h1>🎯 AI Binge Predictor</h1>
+        <p class="subtitle">Get smart binge score using AI model</p>
 
-    <button type="submit">Predict AI Score</button>
+        <form action="/ai_predict" method="POST" class="ai-form">
 
-</form>
+            <input 
+                type="text" 
+                name="movie" 
+                placeholder="Enter movie / series name"
+                required
+            >
+
+            <button type="submit">Predict AI Score</button>
+
+        </form>
+
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 
 </body>
 </html>
