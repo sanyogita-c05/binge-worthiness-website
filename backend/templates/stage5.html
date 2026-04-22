@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 5 - Model Building</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#0f172a,#111827);
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+margin-bottom:10px;
+font-size:42px;
+}
+
+.subtitle{
+text-align:center;
+color:#cbd5e1;
+margin-bottom:35px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.12);
+border-radius:20px;
+padding:24px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+background:rgba(255,255,255,0.10);
+}
+
+h2{
+color:#38bdf8;
+margin-bottom:12px;
+}
+
+p,li{
+color:#d1d5db;
+line-height:1.7;
+}
+
+ul{
+padding-left:18px;
+}
+
+.code{
+background:#1e293b;
+padding:12px;
+border-radius:10px;
+color:#facc15;
+font-family:monospace;
+margin-top:10px;
+}
+
+.btn{
+display:inline-block;
+margin-top:30px;
+background:#38bdf8;
+color:#00111a;
+padding:12px 20px;
+border-radius:12px;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🤖 Stage 5: Model Building</h1>
+<p class="subtitle">How We Predict Binge Score Using Data Science</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>⭐ Binge Score Prediction</h2>
+<p>We calculate binge-worthiness using weighted features:</p>
+<div class="code">
+Score = 0.4(Rating) + 0.3(Completion) + 0.2(Popularity) + 0.1(Rewatch)
+</div>
+</div>
+
+<div class="card">
+<h2>📊 Evaluation Metrics</h2>
+<ul>
+<li>Accuracy</li>
+<li>Precision</li>
+<li>Recall</li>
+<li>CTR</li>
+<li>User Satisfaction</li>
+<li>Watch Time Increase</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>🧠 Algorithms Used</h2>
+<ul>
+<li>Weighted Scoring</li>
+<li>Feature Importance</li>
+<li>Ranking Logic</li>
+<li>Prediction Model</li>
+</ul>
+</div>
+
+</div>
+
+<a href="/pipeline" class="btn">⬅ Back to Pipeline</a>
+
+</div>
+
+</body>
+</html>

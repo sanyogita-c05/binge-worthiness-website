@@ -5,22 +5,79 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <title>Interactive Data Science Pipeline</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#111827);color:#fff;padding:30px}h1{text-align:center;margin-bottom:8px}.sub{text-align:center;color:#cbd5e1;margin-bottom:30px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:22px;border-radius:20px;transition:.25s;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}.card:hover{transform:translateY(-8px) scale(1.02);background:rgba(255,255,255,.1)}.icon{font-size:34px}.num{display:inline-block;background:#38bdf8;color:#00111a;padding:4px 10px;border-radius:999px;font-weight:700;margin:10px 0}.title{font-size:20px;font-weight:700}.desc{color:#d1d5db;line-height:1.5;margin-top:8px}.footer{text-align:center;margin-top:28px;color:#94a3b8}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#111827);color:#fff;padding:30px}
+h1{text-align:center;margin-bottom:8px}
+.sub{text-align:center;color:#cbd5e1;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:22px;border-radius:20px;transition:.25s;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.card:hover{transform:translateY(-8px) scale(1.02);background:rgba(255,255,255,.1)}
+.icon{font-size:34px}
+.num{display:inline-block;background:#38bdf8;color:#00111a;padding:4px 10px;border-radius:999px;font-weight:700;margin:10px 0}
+.title{font-size:20px;font-weight:700}
+.desc{color:#d1d5db;line-height:1.5;margin-top:8px}
+.footer{text-align:center;margin-top:28px;color:#94a3b8}
 </style>
 </head>
+
 <body>
+
 <h1>🚀 Interactive Data Science Pipeline</h1>
 <div class='sub'>Hover over each stage to explore our end-to-end project workflow</div>
+
 <div class='grid'>
-<div class='card'><div class='icon'>📥</div><div class='num'>Step 1</div><div class='title'>Data Collection</div><div class='desc'>Gathered movie and TV metadata such as ratings, popularity, genres, release dates, runtime and episodes.</div></div>
-<div class='card'><div class='icon'>🧹</div><div class='num'>Step 2</div><div class='title'>Data Cleaning</div><div class='desc'>Handled missing values, standardized formats, removed duplicates and prepared usable structured data.</div></div>
-<div class='card'><div class='icon'>🧠</div><div class='num'>Step 3</div><div class='title'>Feature Engineering</div><div class='desc'>Created binge score, trend score, normalized metrics and total watch time features.</div></div>
-<div class='card'><div class='icon'>📊</div><div class='num'>Step 4</div><div class='title'>Analysis & Ranking</div><div class='desc'>Applied weighted scoring, filtering and ranking algorithms to identify best content.</div></div>
-<div class='card'><div class='icon'>🎯</div><div class='num'>Step 5</div><div class='title'>Recommendation Engine</div><div class='desc'>Generated personalized, time-based and trending recommendations for users.</div></div>
-<div class='card'><div class='icon'>📈</div><div class='num'>Step 6</div><div class='title'>Visualization</div><div class='desc'>Displayed insights through dashboards, cards, trends and comparison pages.</div></div>
-<div class='card'><div class='icon'>🌐</div><div class='num'>Step 7</div><div class='title'>Deployment</div><div class='desc'>Integrated everything into a Flask web application for real-time interaction.</div></div>
-<div class='card'><div class='icon'>🔄</div><div class='num'>Step 8</div><div class='title'>Improvement Loop</div><div class='desc'>Continuously refine features, logic and UX using feedback and testing.</div></div>
+
+<div class='card'>
+<div class='icon'>📥</div>
+<div class='num'>Step 1</div>
+<div class='title'>Data Collection</div>
+<div class='desc'>Gathered movie and TV metadata such as ratings, popularity, genres, release dates, runtime and episodes.</div>
 </div>
+
+<div class='card'>
+<div class='icon'>🧹</div>
+<div class='num'>Step 2</div>
+<div class='title'>Data Cleaning</div>
+<div class='desc'>Handled missing values, standardized formats, removed duplicates and prepared usable structured data.</div>
+</div>
+
+<div class='card'>
+<div class='icon'>🧠</div>
+<div class='num'>Step 3</div>
+<div class='title'>Feature Engineering</div>
+<div class='desc'>Created binge score, trend score, normalized metrics and total watch time features.</div>
+</div>
+
+<div class='card'>
+<div class='icon'>📊</div>
+<div class='num'>Step 4</div>
+<div class='title'>Analysis & Ranking</div>
+<div class='desc'>Applied weighted scoring, filtering and ranking algorithms to identify best content.</div>
+</div>
+
+<div class='card' onclick="window.location.href='/stage5'">
+<div class='icon'>🎯</div>
+<div class='num'>Step 5</div>
+<div class='title'>Model Building</div>
+<div class='desc'>Built recommendation systems, binge score prediction and trend forecasting models.</div>
+</div>
+
+<div class='card'>
+<div class='icon'>📈</div>
+<div class='num'>Step 6</div>
+<div class='title'>Visualization</div>
+<div class='desc'>Displayed insights through dashboards, cards, trends and comparison pages.</div>
+</div>
+
+<div class='card'>
+<div class='icon'>🌐</div>
+<div class='num'>Step 7</div>
+<div class='title'>Deployment</div>
+<div class='desc'>Integrated everything into a Flask web application for real-time interaction.</div>
+</div>
+
+</div>
+
 <div class='footer'>Built for the Binge-Worthiness Score Project</div>
+
 </body>
 </html>

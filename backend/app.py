@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 import os
 import random
+
 from mood_engine import get_mood_recommendations
 from model import predict_binge_ml
 
@@ -371,6 +372,7 @@ def mood_recommend():
         mood=mood
     )
 
+<<<<<<< Updated upstream
 
 @app.route('/ai_predict', methods=['POST'])
 def ai_predict():
@@ -404,7 +406,14 @@ def ai_predict():
             title="Not Found",
             score="N/A"
         )
+=======
+@app.route('/stage5')
+def stage5():
+    return render_template('stage5.html') 
+>>>>>>> Stashed changes
 # -------------------- RUN -------------------- #
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+   
