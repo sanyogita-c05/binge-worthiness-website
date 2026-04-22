@@ -36,7 +36,6 @@ def result():
 def mood_page():
     return render_template('mood.html')
 
-
 @app.route('/time')
 def time_page():
     return render_template('time.html')
@@ -96,8 +95,9 @@ def recommend():
 def navbar():
     return render_template('navbar.html')
 
-
-
+@app.route('/pipeline')
+def pipeline():
+    return render_template('pipeline.html')
 
 @app.route('/trends')
 def trends():
