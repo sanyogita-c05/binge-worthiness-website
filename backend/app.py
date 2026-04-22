@@ -4,7 +4,7 @@ import os
 import random
 
 from mood_engine import get_mood_recommendations
-from model import predict_binge_ml
+from model import predict_binge_ml, get_model_metrics
 
 # Correct paths based on your new structure
 app = Flask(
@@ -453,16 +453,11 @@ def ai_predictions():
 
 @app.route('/evaluation_metrics')
 def evaluation_metrics():
-    metrics = {
-        "accuracy": "91%",
-        "precision": "89%",
-        "recall": "87%",
-        "mae": "4.2",
-        "rmse": "5.8",
-        "r2": "0.89"
-    }
-
-    return render_template("evaluation_metrics.html", metrics=metrics)
+    metrics = get_model_metrics()
+    return render_template(
+        "evaluation_metrics.html",
+        metrics=metrics
+    )
 
 @app.route('/algorithms_used')
 def algorithms_used():

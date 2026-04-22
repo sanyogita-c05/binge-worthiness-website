@@ -10,10 +10,11 @@ font-family:Arial;
 background:linear-gradient(135deg,#0f172a,#111827);
 color:white;
 padding:30px;
+margin:0;
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
 }
 
@@ -44,11 +45,13 @@ background:rgba(255,255,255,0.10);
 h2{
 color:#38bdf8;
 margin-bottom:12px;
+font-size:22px;
 }
 
 p{
-line-height:1.7;
+line-height:1.8;
 color:#d1d5db;
+font-size:15px;
 }
 
 a{
@@ -56,6 +59,14 @@ display:inline-block;
 margin-top:25px;
 color:#38bdf8;
 text-decoration:none;
+font-weight:bold;
+}
+
+.note{
+margin-top:25px;
+color:#94a3b8;
+line-height:1.7;
+text-align:center;
 }
 </style>
 </head>
@@ -68,47 +79,51 @@ text-decoration:none;
 <div class="grid">
 
 <div class="card">
-<h2>⭐ Weighted Scoring</h2>
+<h2>📌 Linear Regression</h2>
 <p>
-Combines rating, popularity, completion rate and rewatch value using custom weights to generate binge score.
+Main machine learning algorithm used to predict binge score based on multiple input features such as rating, popularity, votes, recency, time score and engagement.
+</p>
+</div>
+
+<div class="card">
+<h2>⭐ Weighted Scoring Logic</h2>
+<p>
+Used in personalized recommendations by combining base binge score, genre match, mood match and available time with custom weights.
 </p>
 </div>
 
 <div class="card">
 <h2>📈 Ranking Algorithm</h2>
 <p>
-Sorts all movies and shows from highest to lowest predicted binge score.
-</p>
-</div>
-
-<div class="card">
-<h2>🤖 Machine Learning Prediction</h2>
-<p>
-Uses trained ML model from <b>model.py</b> to predict binge-worthiness for unseen titles.
+Sorts movies and web series from highest to lowest binge score or predicted score to show the best recommendations first.
 </p>
 </div>
 
 <div class="card">
 <h2>🔍 Filtering Logic</h2>
 <p>
-Filters recommendations based on time available, mood, type and user preferences.
+Filters results based on user constraints such as time available, mood, selected genres, content type and top-N selection.
 </p>
 </div>
 
 <div class="card">
-<h2>📊 Feature Engineering</h2>
+<h2>🧪 Feature Engineering</h2>
 <p>
-Created features like normalized rating, recency, runtime, total watch time and trend score.
+Created smart features like total watch time, time score, engagement score, normalized rating, normalized popularity and recency score.
 </p>
 </div>
 
 <div class="card">
-<h2>📉 Error Evaluation</h2>
+<h2>📊 Model Evaluation</h2>
 <p>
-Measured prediction quality using MAE, RMSE, Accuracy and R² Score.
+Measured model performance using real dataset metrics: MAE, RMSE and R² Score after train-test split evaluation.
 </p>
 </div>
 
+</div>
+
+<div class="note">
+These algorithms work together to make the Binge-Worthiness platform predictive, personalized and data-driven.
 </div>
 
 <a href="/stage5">⬅ Back to Stage 5</a>

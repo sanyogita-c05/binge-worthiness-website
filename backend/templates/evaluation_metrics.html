@@ -10,6 +10,7 @@ font-family:Arial;
 background:linear-gradient(135deg,#0f172a,#111827);
 color:white;
 padding:30px;
+margin:0;
 }
 
 .container{
@@ -24,7 +25,7 @@ margin-bottom:30px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:18px;
 }
 
@@ -56,8 +57,17 @@ color:#facc15;
 
 .note{
 margin-top:30px;
-line-height:1.7;
+line-height:1.8;
 color:#cbd5e1;
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:15px;
+}
+
+.info{
+margin-top:20px;
+color:#94a3b8;
+line-height:1.7;
 }
 
 a{
@@ -65,6 +75,7 @@ display:inline-block;
 margin-top:25px;
 color:#38bdf8;
 text-decoration:none;
+font-weight:bold;
 }
 </style>
 </head>
@@ -72,24 +83,9 @@ text-decoration:none;
 <body>
 <div class="container">
 
-<h1>📊 Model Evaluation Metrics</h1>
+<h1>📊 Real Model Evaluation Metrics</h1>
 
 <div class="grid">
-
-<div class="card">
-<div class="label">Accuracy</div>
-<div class="value">{{ metrics.accuracy }}</div>
-</div>
-
-<div class="card">
-<div class="label">Precision</div>
-<div class="value">{{ metrics.precision }}</div>
-</div>
-
-<div class="card">
-<div class="label">Recall</div>
-<div class="value">{{ metrics.recall }}</div>
-</div>
 
 <div class="card">
 <div class="label">MAE</div>
@@ -109,9 +105,17 @@ text-decoration:none;
 </div>
 
 <div class="note">
-<b>Interpretation:</b><br>
-Higher Accuracy, Precision, Recall and R² indicate stronger model performance.<br>
-Lower MAE and RMSE indicate lower prediction error.
+<b>Interpretation:</b><br><br>
+
+<b>MAE (Mean Absolute Error):</b> Average difference between actual and predicted binge score. Lower is better.<br><br>
+
+<b>RMSE (Root Mean Squared Error):</b> Measures prediction error with extra penalty on large mistakes. Lower is better.<br><br>
+
+<b>R² Score:</b> Shows how well the model explains binge score variation. Closer to 1 is better.
+</div>
+
+<div class="info">
+These values are calculated using your real dataset with train-test split on the Linear Regression model.
 </div>
 
 <a href="/stage5">⬅ Back to Stage 5</a>

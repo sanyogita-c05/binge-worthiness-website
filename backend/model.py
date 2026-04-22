@@ -1,4 +1,7 @@
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import numpy as np
 from sklearn.linear_model import LinearRegression
 
 # -------------------------
@@ -39,8 +42,22 @@ y = df[target]
 # -------------------------
 # Train Model
 # -------------------------
+# Split dataset into training and testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Train model
 model = LinearRegression()
-model.fit(X, y)
+model.fit(X_train, y_train)
+
+# Predict on test data
+y_pred = model.predict(X_test)
+
+# Calculate real metrics
+mae = mean_absolute_error(y_test, y_pred)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred)
 
 # -------------------------
 # Prediction Function
@@ -73,3 +90,10 @@ def predict_binge_ml(movie_row):
     prediction = max(0, min(100, prediction))
 
     return round(prediction, 2)
+
+def get_model_metrics():
+    return {
+        "mae": round(mae, 2),
+        "rmse": round(rmse, 2),
+        "r2": round(r2, 2)
+    }
