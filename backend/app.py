@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import random
 from mood_engine import get_mood_recommendations
+from model import predict_binge_ml
 
 # Correct paths based on your new structure
 app = Flask(
@@ -119,7 +120,9 @@ def about():
 def contact():
     return render_template('contact.html')
 
-
+@app.route('/ai_binge')
+def ai_binge():
+    return render_template('ai_binge.html')
 # -------------------- CORE FEATURE -------------------- #
 
 @app.route('/predict', methods=['POST'])
@@ -368,6 +371,22 @@ def mood_recommend():
         mood=mood
     )
 
+
+@app.route('/ai_binge_result', methods=['POST'])
+def ai_binge_result():
+    runtime = float(request.form['runtime'])
+    episodes = float(request.form['episodes'])
+    genres = request.form['genres']
+
+    score = predict_binge_ml(runtime, episodes, genres)
+
+    return render_template(
+        'ai_result.html',
+        score=round(score, 2),
+        runtime=runtime,
+        episodes=episodes,
+        genres=genres
+    )
 # -------------------- RUN -------------------- #
 
 if __name__ == '__main__':
