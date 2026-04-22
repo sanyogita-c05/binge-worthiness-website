@@ -372,21 +372,38 @@ def mood_recommend():
     )
 
 
-@app.route('/ai_binge_result', methods=['POST'])
-def ai_binge_result():
-    runtime = float(request.form['runtime'])
-    episodes = float(request.form['episodes'])
-    genres = request.form['genres']
+@app.route('/ai_predict', methods=['POST'])
+def ai_predict():
+    user_input = request.form['movie'].lower()
 
-    score = predict_binge_ml(runtime, episodes, genres)
+    result = df[df['title'].str.lower().str.contains(user_input)]
 
-    return render_template(
-        'ai_result.html',
-        score=round(score, 2),
-        runtime=runtime,
-        episodes=episodes,
-        genres=genres
-    )
+    if not result.empty:
+        movie = result.iloc[0]
+
+        # ML Prediction
+        score = predict_binge_ml(movie)
+
+        runtime = movie['runtime']
+        episodes = movie['episodes']
+        total_time = (runtime * episodes) / 60
+
+        return render_template(
+            'ai_result.html',
+            title=movie['title'],
+            score=round(score, 2),
+            runtime=runtime,
+            episodes=episodes,
+            total_time=round(total_time, 2),
+            genres=movie['genres']
+        )
+
+    else:
+        return render_template(
+            'ai_result.html',
+            title="Not Found",
+            score="N/A"
+        )
 # -------------------- RUN -------------------- #
 
 if __name__ == '__main__':

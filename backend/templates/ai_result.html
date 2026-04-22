@@ -1,6 +1,37 @@
-<h2>🎯 AI Predicted Binge Score</h2>
+<!doctype html>
+<html>
+<head>
+    <title>AI Result</title>
 
-<p>Score: {{ score }}</p>
-<p>Runtime: {{ runtime }}</p>
-<p>Episodes: {{ episodes }}</p>
-<p>Genres: {{ genres }}</p>
+    <style>
+        body {
+            background: #0f0f0f;
+            color: white;
+            text-align: center;
+            font-family: Arial;
+        }
+
+        .score {
+            font-size: 50px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🎯 AI Predicted Binge Score</h1>
+
+<h2>{{ title }}</h2>
+
+<div class="score">{{ score }}</div>
+
+<p>⏱ Runtime (per episode): {{ runtime }} minutes</p>
+<p>📺 Episodes: {{ episodes }}</p>
+<p>⏳ Total Watch Time: {{ total_time }} hours</p>
+<p>🎭 Genres: {{ genres }}</p>
+
+<p>🤖 AI uses rating, popularity, votes & total watch time</p>
+
+</body>
+</html>
