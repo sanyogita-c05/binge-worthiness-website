@@ -372,8 +372,6 @@ def mood_recommend():
         mood=mood
     )
 
-<<<<<<< Updated upstream
-
 @app.route('/ai_predict', methods=['POST'])
 def ai_predict():
     user_input = request.form['movie'].lower()
@@ -406,14 +404,14 @@ def ai_predict():
             title="Not Found",
             score="N/A"
         )
-=======
+
+
 @app.route('/stage5')
 def stage5():
-    return render_template('stage5.html') 
->>>>>>> Stashed changes
+    return render_template('stage5.html')
+
+
 # -------------------- RUN -------------------- #
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-   
