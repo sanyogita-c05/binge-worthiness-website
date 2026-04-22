@@ -353,21 +353,6 @@ def personalized_result():
             message="Try another movie"
         )
 
-# -------------------- MOOD RECOMMENDATION (ML FEATURE) -------------------- #
-
-@app.route('/mood_recommend', methods=['POST'])
-def mood_recommend():
-    mood = request.form['mood']
-
-    recommendations = get_mood_recommendations(mood)
-
-    return render_template(
-        'recommend.html',
-        recommendations=recommendations,
-        mood=mood
-    )
-
-
 # -------------------- RUN -------------------- #
 
 if __name__ == '__main__':

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recommend.css') }}">
+</head>
+<body>
+
+<div class="rec-section">
+    <h1>🎬 For your mood: {{ mood }}</h1>
+
+    {% if recommendations %}
+        <div class="rec-container">
+            {% for movie in recommendations %}
+                <div class="rec-card">
+                    <h2>{{ movie.title }}</h2>
+                    <p class="score">⭐ Score: {{ movie.score }}</p>
+                    <p class="overview">{{ movie.overview }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-result">No movies found for this mood 😔</p>
+    {% endif %}
+
+    <a href="/mood" class="back-btn">Try Another Mood</a>
+</div>
+
+</body>
+</html>

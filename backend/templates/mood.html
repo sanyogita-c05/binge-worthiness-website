@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mood Recommendation</title>
+
+    <!-- GLOBAL THEME -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+
+    <!-- PAGE CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mood.css') }}">
+</head>
+<body>
+
+<div class="mood-section">
+    <div class="mood-container">
+        <h1>🎭 Mood-Based Movies</h1>
+        <p class="subtitle">Tell us how you feel, we'll suggest something perfect</p>
+
+        <form action="/mood_recommend" method="POST" class="mood-form">
+            <select name="mood" required>
+    <option value="">-- Select Your Mood --</option>
+    <option value="happy">😊 Happy</option>
+    <option value="sad">😢 Sad</option>
+    <option value="romantic">❤️ Romantic</option>
+    <option value="comedy">😂 Comedy</option>
+    <option value="thriller">🔪 Thriller</option>
+    <option value="dark">🌑 Dark</option>
+    <option value="mind-blowing">🤯 Mind-Blowing</option>
+    <option value="motivational">💪 Motivational</option>
+    <option value="scary">👻 Scary</option>
+</select>
+
+            <button type="submit">Get Recommendations</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
