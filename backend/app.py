@@ -46,6 +46,10 @@ def time_page():
     return render_template('time.html')
 
 
+@app.route('/stage6')
+def stage6():
+    return render_template('stage6.html')
+
 @app.route('/time_result', methods=['POST'])
 def time_result():
     time_available = float(request.form['time'])

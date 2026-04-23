@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Visualization</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stage6.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+```
+<h1 class="dashboard-title">📊 Binge Analytics Dashboard</h1>
+
+<!-- Buttons -->
+<div class="chart-selector">
+    <button onclick="showChart(1)" class="active">Rating vs Popularity</button>
+    <button onclick="showChart(2)">Votes vs Rating</button>
+    <button onclick="showChart(3)">Year vs Popularity</button>
+    <button onclick="showChart(4)">Binge Score vs Watch Time</button>
+</div>
+
+<!-- Tableau Graph -->
+<div id="tableauViz">
+    <iframe id="vizFrame"
+        src="https://public.tableau.com/views/Book1_17768853351380/Sheet1?:showVizHome=no&:embed=true">
+    </iframe>
+</div>
+```
+
+</div>
+
+<script>
+function showChart(num) {
+
+    const frame = document.getElementById("vizFrame");
+
+    const links = {
+        1: "https://public.tableau.com/views/Book1_17768853351380/Sheet1?:showVizHome=no&:embed=true",
+        2: "https://public.tableau.com/views/Book12_17768861683600/Sheet2?:showVizHome=no&:embed=true",
+        3: "https://public.tableau.com/views/Book13_17768863697070/Sheet3?:showVizHome=no&:embed=true",
+        4: "https://public.tableau.com/views/Book14_17768865758370/Sheet4?:showVizHome=no&:embed=true"
+    };
+
+    frame.src = links[num];
+
+    // Active button highlight
+    let buttons = document.querySelectorAll(".chart-selector button");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    buttons[num - 1].classList.add("active");
+}
+</script>
+
+</body>
+</html>
