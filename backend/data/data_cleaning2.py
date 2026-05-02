@@ -19,9 +19,11 @@ print("\nDuplicate Rows:", df.duplicated().sum())
 # ==============================
 # 3. HANDLE MISSING VALUES
 # ==============================
+# Drop rows where genres are missing
+df = df.dropna(subset=['genres'])
 
-# Fill missing genres with 'Unknown'
-df['genres'] = df['genres'].fillna('Unknown')
+# Remove 'Unknown' genres if they exist
+df = df[df['genres'] != 'Unknown']
 
 # Drop rows where critical columns are missing
 df = df.dropna(subset=['year', 'release_date'])
