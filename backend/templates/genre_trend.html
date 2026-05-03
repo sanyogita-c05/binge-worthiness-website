@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+    <title>Genre Trends</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f0f1a;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        form {
+            margin-bottom: 30px;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        select {
+            background: #1f1f2e;
+            color: white;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff4ecd, #7a5cff);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Chart Card */
+        .chart-card {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(255, 0, 150, 0.2);
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+
+        .note {
+            margin-top: 10px;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>📈 Genre Trend Analysis</h2>
+
+    <!-- 🔽 DROPDOWN -->
+    <form method="POST">
+        <select name="genre" required>
+            <option value="">Select Genre</option>
+            <option value="thriller">Thriller</option>
+            <option value="comedy">Comedy</option>
+            <option value="romance">Romance</option>
+            <option value="action">Action</option>
+            <option value="drama">Drama</option>
+            <option value="crime">Crime</option>
+            <option value="mystery">Mystery</option>
+        </select>
+
+        <button type="submit">Show Trend</button>
+    </form>
+
+    {% if years %}
+    <div class="chart-card">
+        <h3>Trend for {{ genre }}</h3>
+
+        <canvas id="trendChart"></canvas>
+
+        <div class="note">
+            Solid line = Actual Trend | Dashed line = Forecast
+        </div>
+    </div>
+
+    <script>
+    const pastYears = {{ years|tojson }};
+    const pastScores = {{ scores|tojson }};
+
+    const futureYears = {{ future_years|default([])|tojson }};
+    const forecastScores = {{ forecast|default([])|tojson }};
+
+    const allYears = pastYears.concat(futureYears);
+
+    const pastData = pastScores.concat(Array(forecastScores.length).fill(null));
+    const forecastData = Array(pastScores.length).fill(null).concat(forecastScores);
+
+    const ctx = document.getElementById('trendChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: allYears,
+            datasets: [
+                {
+                    label: 'Actual Trend',
+                    data: pastData,
+                    borderColor: '#4da6ff',
+                    backgroundColor: 'transparent',
+                    borderWidth: 3,
+                    tension: 0.4
+                },
+                {
+                    label: 'Forecast',
+                    data: forecastData,
+                    borderColor: '#ff4ecd',
+                    backgroundColor: 'transparent',
+                    borderWidth: 3,
+                    borderDash: [6, 6],
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+    responsive: true,
+    plugins: {
+        legend: {
+            labels: {
+                color: 'white'
+            }
+        }
+    },
+    scales: {
+        x: {
+            title: {
+                display: true,
+                text: 'Year',   // 🔥 X-axis label
+                color: 'white',
+                font: {
+                    size: 16,
+                    weight: 'bold'
+                }
+            },
+            ticks: { color: 'white' }
+        },
+        y: {
+            title: {
+                display: true,
+                text: 'Average Binge Score',   // 🔥 Y-axis label
+                color: 'white',
+                font: {
+                    size: 16,
+                    weight: 'bold'
+                }
+            },
+            ticks: { color: 'white' }
+        }
+    }
+}
+    });
+    </script>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

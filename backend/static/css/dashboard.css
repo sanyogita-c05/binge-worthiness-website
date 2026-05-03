@@ -1,6 +1,6 @@
 /* DASHBOARD */
 .dashboard {
-    padding: 100px 20px;   /* more top space */
+    padding: 100px 20px;
     background: black;
     min-height: 100vh;
     color: white;
@@ -11,9 +11,9 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     
-    gap: 40px;              /* 👈 MORE SPACE BETWEEN CARDS */
+    gap: 40px;
     
-    max-width: 800px;       /* controls overall size */
+    max-width: 800px;
     margin: auto;
 }
 
@@ -23,7 +23,7 @@
     border-radius: 15px;
     cursor: pointer;
 
-    aspect-ratio: 1 / 1;   /* square shape */
+    aspect-ratio: 1 / 1;
 
     display: flex;
     flex-direction: column;
@@ -31,7 +31,7 @@
     align-items: center;
 
     transition: 0.3s;
-    position: relative;     /* 👈 REQUIRED for glow */
+    position: relative;
     overflow: hidden;
 
     padding: 20px;
@@ -70,9 +70,20 @@
     right: -50px;
 }
 
+/* 🔥 CENTER THE 7TH CARD */
+.center-card {
+    grid-column: 1 / -1;   /* span both columns */
+    justify-self: center;  /* center horizontally */
+    width: 50%;            /* same width feel as others */
+}
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
     .card-container {
         grid-template-columns: 1fr;
+    }
+
+    .center-card {
+        width: 100%; /* full width on mobile */
     }
 }
