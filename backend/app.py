@@ -511,7 +511,7 @@ def analysis():
     runtime_binge = df[['runtime', 'binge_score']].dropna()
 
     # ---- CORRELATION ----
-    corr_df = df[['rating', 'votes', 'popularity', 'runtime', 'binge_score', 'total_watch_time']].dropna()
+    corr_df = df[['rating', 'votes', 'popularity', 'runtime', 'total_watch_time']].dropna()
     corr_matrix = corr_df.corr().round(2)
 
     # ===========================
