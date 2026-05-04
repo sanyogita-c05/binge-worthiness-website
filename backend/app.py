@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import random
 import numpy as np
+from statsmodels.tsa.arima.model import ARIMA
 
 from mood_engine import get_mood_recommendations
 from model import predict_binge_ml, get_model_metrics
@@ -19,8 +20,63 @@ app = Flask(
 data_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
 df = pd.read_csv(data_path)
 
+df['year'] = pd.to_datetime(df['release_date'], errors='coerce').dt.year
+
+def forecast_trend(series):
+    if len(series) < 5:
+        return []
+
+    model = ARIMA(series, order=(2,0,2))
+    model_fit = model.fit()
+
+    forecast = model_fit.forecast(steps=3)
+    return forecast.tolist()
 
 # -------------------- ROUTES -------------------- #
+
+@app.route('/genre_trend', methods=['GET', 'POST'])
+def genre_trend():
+    if request.method == 'POST':
+        genre = request.form['genre']
+
+        series = get_genre_time_series(genre)
+
+        years = series.index.tolist()
+        scores = series.values.tolist()
+
+        # 🔮 Forecast
+        forecast = forecast_trend(series)
+
+        # Create future years
+        if len(years) > 0:
+            last_year = years[-1]
+            future_years = [last_year + i for i in range(1, len(forecast)+1)]
+        else:
+            future_years = []
+
+        return render_template(
+            'genre_trend.html',
+            genre=genre,
+            years=years,
+            scores=scores,
+            forecast=forecast,
+            future_years=future_years
+        )
+
+    return render_template('genre_trend.html')
+
+def get_genre_time_series(selected_genre):
+    # Expand genres
+    genre_df = df.assign(genres=df['genres'].str.split(',')).explode('genres')
+    genre_df['genres'] = genre_df['genres'].str.strip().str.lower()
+
+    # Filter selected genre
+    genre_df = genre_df[genre_df['genres'] == selected_genre.lower()]
+
+    # Group by year
+    yearly = genre_df.groupby('year')['binge_score'].mean().dropna()
+
+    return yearly
 
 @app.route('/')
 def home():
@@ -224,9 +280,6 @@ def predict_binge():
             category="Try another movie",
             confidence="N/A"
         )
-
-
-
 
 
 
