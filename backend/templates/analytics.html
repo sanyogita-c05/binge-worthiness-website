@@ -12,7 +12,20 @@
       text-align: center;
     }
 
-    .chart-selector button {
+    .tableau-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #tableauViz {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .chart-buttons button {
       padding: 10px 20px;
       margin: 5px;
       border-radius: 8px;
@@ -22,7 +35,7 @@
       cursor: pointer;
     }
 
-    .chart-selector button.active {
+    .chart-buttons button.active {
       background: #00c3ff;
       color: black;
     }
@@ -34,42 +47,71 @@
 <div id="navbar"></div>
 
 <section class="dashboard">
-  <h1>📊 Visual Analytics Dashboard</h1>
+  <h1>📊 Analytics Dashboard</h1>
 
   <!-- Buttons -->
-  <div class="chart-selector">
-    <button onclick="loadChart('Sheet1', this)">Binge</button>
-    <button onclick="loadChart('Sheet2', this)">Genre</button>
-    <button onclick="loadChart('Sheet3', this)">Engagement</button>
-    <button onclick="loadChart('Sheet4', this)">Ratings</button>
-    <button onclick="loadChart('Sheet5', this)">Votes</button>
+  <div class="chart-buttons">
+    <button onclick="loadGraph('graph1', this)" class="active">
+      Binge Score Distribution
+    </button>
+
+    <button onclick="loadGraph('graph2', this)">
+      Genre vs Binge Category
+    </button>
+
+    <button onclick="loadGraph('graph3', this)">
+      Rating vs Binge Score
+    </button>
+
+    <button onclick="loadGraph('graph4', this)">
+      Popularity vs Binge Score
+    </button>
   </div>
 
   <!-- Tableau Container -->
-  <div id="tableauViz"></div>
+  <div class="tableau-container">
+    <div id="tableauViz"></div>
+  </div>
 
 </section>
 
 <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 
 <script>
-function loadChart(sheetName, btn) {
+function loadGraph(graph, btn) {
 
-    // Clear previous chart
     const container = document.getElementById("tableauViz");
     container.innerHTML = "";
 
-    // Create placeholder
     const div = document.createElement("div");
     div.className = "tableauPlaceholder";
+    div.style.width = "1000px";
+    div.style.height = "600px";
 
     const obj = document.createElement("object");
     obj.className = "tableauViz";
+    obj.width = "100%";
+    obj.height = "100%";
+
+    let graphName = "";
+
+    if (graph === 'graph1') {
+        graphName = "Graph1_17778884039160/Sheet1";
+    } 
+    else if (graph === 'graph2') {
+        graphName = "Graph2_17778916984130/Sheet3";
+    }
+    else if (graph === 'graph3') {
+        graphName = "Graph3_17778930016930/Sheet4";
+    }
+    else if (graph === 'graph4') {
+        graphName = "Graph4_17778941892200/Sheet5";
+    }
 
     obj.innerHTML = `
       <param name="host_url" value="https://public.tableau.com/" />
       <param name="embed_code_version" value="3" />
-      <param name="name" value="BingeScore1/${sheetName}" />
+      <param name="name" value="${graphName}" />
       <param name="tabs" value="no" />
       <param name="toolbar" value="yes" />
     `;
@@ -77,21 +119,20 @@ function loadChart(sheetName, btn) {
     div.appendChild(obj);
     container.appendChild(div);
 
-    // Load Tableau script
     const script = document.createElement("script");
     script.src = "https://public.tableau.com/javascripts/api/viz_v1.js";
     obj.parentNode.insertBefore(script, obj);
 
-    // Button highlight
-    document.querySelectorAll(".chart-selector button")
+    // Button active state
+    document.querySelectorAll(".chart-buttons button")
         .forEach(b => b.classList.remove("active"));
 
     btn.classList.add("active");
 }
 
-// Load default chart
+// Load first graph by default
 window.onload = () => {
-    loadChart("Sheet1", document.querySelector(".chart-selector button"));
+    loadGraph('graph1', document.querySelector(".chart-buttons button"));
 };
 </script>
 
