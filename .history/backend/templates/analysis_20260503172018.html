@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EDA Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+        }
+
+        .full {
+            grid-column: span 2;
+        }
+
+        canvas {
+            max-height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>📊 EDA Dashboard</h1>
+
+<div class="grid">
+
+    <!-- Overview -->
+    <div class="card full">
+        <h2>Dataset Overview</h2>
+        <p>Rows: {{ total_rows }} | Columns: {{ total_cols }}</p>
+        <p>{{ columns }}</p>
+    </div>
+
+    <!-- BEFORE CLEANING -->
+    <div class="card">
+        <h2>Before Cleaning</h2>
+        <canvas id="rawChart"></canvas>
+    </div>
+
+    <!-- AFTER CLEANING -->
+    <div class="card">
+        <h2>After Cleaning</h2>
+        <canvas id="cleanChart"></canvas>
+    </div>
+
+    <!-- CLEANING NOTES -->
+    <div class="card full">
+        <h2>Cleaning Notes</h2>
+        <ul>
+            {% for note in cleaning_notes %}
+            <li>{{ note }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- RATING -->
+    <div class="card">
+        <h2>Rating Distribution</h2>
+        <canvas id="ratingChart"></canvas>
+    </div>
+
+    <!-- GENRE -->
+    <div class="card">
+        <h2>Genre Frequency</h2>
+        <canvas id="genreChart"></canvas>
+    </div>
+
+    <!-- CORRELATION -->
+    <div class="card full">
+        <h2>Correlation</h2>
+        <canvas id="corrChart"></canvas>
+    </div>
+
+</div>
+
+<script>
+
+function options(xLabel, yLabel) {
+    return {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { title: { display: true, text: xLabel } },
+            y: { title: { display: true, text: yLabel } }
+        }
+    }
+}
+
+// BEFORE CLEANING
+new Chart(document.getElementById('rawChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ missing_raw_labels | tojson }},
+        datasets: [{
+            data: {{ missing_raw_values | tojson }},
+            backgroundColor: '#ef4444'
+        }]
+    },
+    options: options("Columns", "Missing Values")
+});
+
+// AFTER CLEANING
+new Chart(document.getElementById('cleanChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ missing_clean_labels | tojson }},
+        datasets: [{
+            data: {{ missing_clean_values | tojson }},
+            backgroundColor: '#22c55e'
+        }]
+    },
+    options: options("Columns", "Missing Values")
+});
+
+// RATING
+new Chart(document.getElementById('ratingChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ rating_bins | tojson }},
+        datasets: [{
+            data: {{ rating_counts | tojson }},
+            backgroundColor: '#3b82f6'
+        }]
+    },
+    options: options("Rating Range", "Count")
+});
+
+// GENRE
+new Chart(document.getElementById('genreChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ genre_labels | tojson }},
+        datasets: [{
+            data: {{ genre_counts | tojson }},
+            backgroundColor: '#f59e0b'
+        }]
+    },
+    options: options("Genres", "Count")
+});
+
+// CORRELATION
+new Chart(document.getElementById('corrChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ corr_labels | tojson }},
+        datasets: [{
+            data: {{ corr_values | tojson }}[0],
+            backgroundColor: '#8b5cf6'
+        }]
+    },
+    options: options("Features", "Correlation")
+});
+
+</script>
+
+</body>
+</html>
