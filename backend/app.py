@@ -532,7 +532,8 @@ def analysis():
     # ===============================
     # LOAD CLEANED + UNCLEANED DATA
     # ===============================
-    cleaned_df = df.copy()
+    data_path = os.path.join(os.path.dirname(__file__), "data", "cleaned_binge_dataset.csv")
+    cleaned_df = pd.read_csv(data_path)
 
     raw_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
     raw_df = pd.read_csv(raw_path)
