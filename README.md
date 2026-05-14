@@ -195,11 +195,33 @@ http://127.0.0.1:5000
 ```
 
 ---
-# 📷 Screenshots
+## 📷 Screenshots
+
+### Dashboard 1
+![Dashboard 1](ss/dashboard1.png)
+
+![Dashboard 2](ss/dashboard2.png)
+
+### Visualization
+![Visualization](ss/Visualization.png)
+
+### Trend Prediction
+![Trend Prediction](ss/TrendPrediction.png)
+
+### Pipeline
+![Pipeline](ss/Pipeline.png)
+
+## Binge Score
+![Binge Score](ss/BingeScore.png)
 
 
-[Dashboard](screenshots/dashboard.png)
----
+## Features 
+![Features 1](ss/features1.png)
+
+![Features 2](ss/features2.png)
+
+## Time Calculation
+![Time Calculation](ss/TimeCalc.png)
 
 ---
 
