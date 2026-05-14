@@ -86,15 +86,43 @@ df['year'] = df['year'].astype(int)
 df = df[df['episodes'] < 1000]
 df = df[df['total_watch_time'] < 1000]
 
+# ==============================
+# 11. NORMALIZATION
+# ==============================
+df['rating_norm'] = (df['rating'] - df['rating'].min()) / (df['rating'].max() - df['rating'].min())
+df['votes_norm'] = (df['votes'] - df['votes'].min()) / (df['votes'].max() - df['votes'].min())
+df['recency_norm'] = (df['year'] - df['year'].min()) / (df['year'].max() - df['year'].min())
 
 # ==============================
-# 11. FINAL CHECK
+# 12. BINGE SCORE CALCULATION
+# ==============================
+df['binge_score'] = (
+    0.4 * df['rating_norm'] +
+    0.3 * df['votes_norm'] +
+    0.3 * df['recency_norm']
+)
+
+# ==============================
+# 13. BINGE CATEGORY
+# ==============================
+def categorize(score):
+    if score < 0.4:
+        return "Low"
+    elif score < 0.7:
+        return "Medium"
+    else:
+        return "High"
+
+df['binge_category'] = df['binge_score'].apply(categorize)
+
+# ==============================
+# 14. FINAL CHECK
 # ==============================
 print("\nCleaned Shape:", df.shape)
 print("\nRemaining Missing Values:\n", df.isnull().sum())
 
 # ==============================
-# 12. SAVE CLEAN DATASET
+# 15. SAVE CLEAN DATASET
 # ==============================
 df.to_csv("cleaned_binge_dataset.csv", index=False)
 

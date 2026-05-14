@@ -17,11 +17,20 @@ app = Flask(
 )
 
 # Load dataset
-data_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
+data_path = os.path.join(os.path.dirname(__file__), "data", "cleaned_binge_dataset.csv")
 df = pd.read_csv(data_path)
 
 df['year'] = pd.to_datetime(df['release_date'], errors='coerce').dt.year
 
+def forecast_trend(series):
+    if len(series) < 5:
+        return []
+
+    model = ARIMA(series, order=(2,0,2))
+    model_fit = model.fit()
+
+    forecast = model_fit.forecast(steps=3)
+    return forecast.tolist()
 
 # -------------------- ROUTES -------------------- #
 
@@ -68,16 +77,6 @@ def get_genre_time_series(selected_genre):
     yearly = genre_df.groupby('year')['binge_score'].mean().dropna()
 
     return yearly
-
-def forecast_trend(series):
-    if len(series) < 5:
-        return []
-
-    model = ARIMA(series, order=(2,0,2))
-    model_fit = model.fit()
-
-    forecast = model_fit.forecast(steps=3)
-    return forecast.tolist()
 
 @app.route('/')
 def home():
@@ -533,8 +532,7 @@ def analysis():
     # ===============================
     # LOAD CLEANED + UNCLEANED DATA
     # ===============================
-    data_path = os.path.join(os.path.dirname(__file__), "data", "cleaned_binge_dataset.csv")
-    cleaned_df = pd.read_csv(data_path)
+    cleaned_df = df.copy()
 
     raw_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
     raw_df = pd.read_csv(raw_path)
@@ -553,7 +551,7 @@ def analysis():
     # 🟢 AFTER CLEANING
     # ===============================
     missing = cleaned_df.isnull().sum()
-    duplicates = raw_df.isnull().sum()
+    duplicates = raw_df.duplicated().sum()
 
     # ---- CLEANING NOTES ----
     cleaning_notes = [

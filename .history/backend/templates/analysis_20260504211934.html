@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EDA Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .full {
+            grid-column: span 2;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        th {
+            background: #334155;
+        }
+
+        td, th {
+            border: 1px solid #334155;
+            padding: 8px;
+            text-align: left;
+        }
+
+        canvas {
+            margin-top: 15px;
+            max-height: 300px;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        ul {
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>📊 Exploratory Data Analysis Dashboard</h1>
+
+<div class="grid">
+
+    <!-- Dataset Overview -->
+    <div class="card full">
+        <h2>Dataset Overview</h2>
+        <p>Total Rows: {{ total_rows }} | Columns: {{ total_cols }}</p>
+
+        <p><b>Columns:</b> {{ columns }}</p>
+
+        <h3>Sample Data</h3>
+        <table>
+            <tr>
+                {% for col in columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+
+            {% for row in sample_data %}
+            <tr>
+                {% for col in columns %}
+                <td>{{ row[col] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    
+<!-- Cleaning Section -->
+<div class="card full">
+    <h2>Data Cleaning Comparison</h2>
+
+    <div style="display:flex; gap:20px;">
+
+        <!-- BEFORE CLEANING -->
+        <div style="flex:1;">
+            <h3>Before Cleaning</h3>
+            <canvas id="missingBeforeChart"></canvas>
+        </div>
+
+        <!-- AFTER CLEANING -->
+        <div style="flex:1;">
+            <h3>After Cleaning</h3>
+            <canvas id="missingAfterChart"></canvas>
+        </div>
+
+    </div>
+
+    <p class="small"></p>
+</div>
+
+
+    <!-- Univariate -->
+    <div class="card">
+        <h2>Rating Distribution</h2>
+        <canvas id="ratingChart"></canvas>
+    </div>
+
+    <div class="card">
+        <h2>Genre Frequency</h2>
+        <canvas id="genreChart"></canvas>
+    </div>
+
+
+
+    <!-- Correlation -->
+    <div class="card full">
+        <h2>Correlation with Binge Score</h2>
+        <canvas id="corrChart"></canvas>
+    </div>
+
+    <!-- Hypothesis Testing -->
+    <div class="card full">
+        <h2>Hypothesis Testing (ANOVA)</h2>
+
+        <p><b>Question:</b> Do different genres have different binge scores?</p>
+
+        <p><b>Null Hypothesis (H₀):</b> All genres have the same average binge score.</p>
+        <p><b>Alternative Hypothesis (H₁):</b> At least one genre has a different binge score.</p>
+
+        <hr>
+
+        <p><b>F-Statistic:</b> {{ f_stat }}</p>
+        <p><b>p-value:</b> {{ p_value }}</p>
+
+        <p><b>Conclusion:</b></p>
+        <p style="color:#22c55e;">{{ hypothesis_result }}</p>
+
+        <p class="small">
+            If p-value &lt; 0.05 → statistically significant difference exists.
+        </p>
+    </div>
+
+    <!-- Insights -->
+    <div class="card full">
+        <h2>Key Insights</h2>
+        <ul>
+            {% for ins in insights %}
+            <li>{{ ins }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+<script>
+const commonOptions = (xLabel, yLabel) => ({
+    responsive: true,
+    plugins: {
+        legend: { display: false }
+    },
+    scales: {
+        x: {
+            ticks: { color: "#cbd5f5" },
+            title: {
+                display: true,
+                text: xLabel,
+                color: "#e2e8f0"
+            }
+        },
+        y: {
+            ticks: { color: "#cbd5f5" },
+            title: {
+                display: true,
+                text: yLabel,
+                color: "#e2e8f0"
+            }
+        }
+    }
+});
+
+
+// 🔴 BEFORE CLEANING
+new Chart(document.getElementById('missingBeforeChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ missing_before_labels | tojson }},
+        datasets: [{
+            label: 'Missing Values (Before)',
+            data: {{ missing_before_values | tojson }},
+            backgroundColor: '#ef4444'
+        }]
+    },
+    options: commonOptions("Columns", "Missing Values")
+});
+
+
+// 🟢 AFTER CLEANING
+new Chart(document.getElementById('missingAfterChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ missing_labels | tojson }},
+        datasets: [{
+            label: 'Missing Values (After)',
+            data: {{ missing_values | tojson }},
+            backgroundColor: '#22c55e'
+        }]
+    },
+    options: commonOptions("Columns", "Missing Values")
+});
+
+
+// Rating Distribution
+new Chart(document.getElementById('ratingChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ rating_bins | tojson }},
+        datasets: [{
+            label: 'Number of Movies',
+            data: {{ rating_counts | tojson }},
+            backgroundColor: '#22c55e'
+        }]
+    },
+    options: commonOptions("Rating Range", "Count")
+});
+
+
+// Genre
+new Chart(document.getElementById('genreChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ genre_labels | tojson }},
+        datasets: [{
+            data: {{ genre_counts | tojson }},
+            backgroundColor: '#f59e0b'
+        }]
+    },
+    options: commonOptions("Genre", "Frequency")
+});
+
+
+// Correlation
+new Chart(document.getElementById('corrChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ corr_labels | tojson }},
+        datasets: [{
+            label: 'Correlation',
+            data: {{ corr_values | tojson }}[0],
+            backgroundColor: '#6366f1'
+        }]
+    },
+    options: commonOptions("Features", "Correlation Value")
+});
+
+</script>
+
+</body>
+</html>

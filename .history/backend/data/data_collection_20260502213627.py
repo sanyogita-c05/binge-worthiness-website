@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-API_KEY = "829aeeb862595857334bf9a2f4cf12ed"
+API_KEY = "YOUR_API_KEY"
 
 data_list = []
 

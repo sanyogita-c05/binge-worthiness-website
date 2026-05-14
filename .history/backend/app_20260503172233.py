@@ -20,8 +20,21 @@ app = Flask(
 data_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
 df = pd.read_csv(data_path)
 
+
+raw_data_path = os.path.join(os.path.dirname(__file__), "data", "binge.csv")
+df_raw = pd.read_csv(raw_data_path)
+
 df['year'] = pd.to_datetime(df['release_date'], errors='coerce').dt.year
 
+def forecast_trend(series):
+    if len(series) < 5:
+        return []
+
+    model = ARIMA(series, order=(2,0,2))
+    model_fit = model.fit()
+
+    forecast = model_fit.forecast(steps=3)
+    return forecast.tolist()
 
 # -------------------- ROUTES -------------------- #
 
@@ -68,16 +81,6 @@ def get_genre_time_series(selected_genre):
     yearly = genre_df.groupby('year')['binge_score'].mean().dropna()
 
     return yearly
-
-def forecast_trend(series):
-    if len(series) < 5:
-        return []
-
-    model = ARIMA(series, order=(2,0,2))
-    model_fit = model.fit()
-
-    forecast = model_fit.forecast(steps=3)
-    return forecast.tolist()
 
 @app.route('/')
 def home():
@@ -530,94 +533,87 @@ def algorithms_used():
 @app.route('/analysis')
 def analysis():
 
-    # ===============================
-    # LOAD CLEANED + UNCLEANED DATA
-    # ===============================
-    data_path = os.path.join(os.path.dirname(__file__), "data", "cleaned_binge_dataset.csv")
-    cleaned_df = pd.read_csv(data_path)
-
-    raw_path = os.path.join(os.path.dirname(__file__), "data", "binge_dataset_updated.csv")
-    raw_df = pd.read_csv(raw_path)
-
     # ---- BASIC INFO ----
-    total_rows, total_cols = cleaned_df.shape
-    columns = cleaned_df.columns.tolist()
-    sample_data = cleaned_df.head(5).to_dict(orient='records')
+    total_rows, total_cols = df.shape
+    columns = df.columns.tolist()
 
-    # ===============================
-    # 🔴 BEFORE CLEANING
-    # ===============================
-    missing_before = raw_df.isnull().sum()
+    sample_data = df.head(5).to_dict(orient='records')
 
-    # ===============================
-    # 🟢 AFTER CLEANING
-    # ===============================
-    missing = cleaned_df.isnull().sum()
-    duplicates = raw_df.isnull().sum()
+    # ---- MISSING VALUES ----
+    missing = df.isnull().sum()
+    duplicates = df.duplicated().sum()
 
     # ---- CLEANING NOTES ----
     cleaning_notes = [
-        "Missing values handled using median",
-        "Duplicates removed",
-        "Genres standardized",
-        "Feature normalization applied"
+        "Missing values in numeric columns were handled using median values.",
+        "Duplicate records were identified and removed.",
+        "Genres were standardized and cleaned for consistency.",
+        "Normalized columns (rating_norm, votes_norm, etc.) were created for fair comparison."
     ]
 
-    # ===============================
-    # UNIVARIATE
-    # ===============================
-    genre_expanded = cleaned_df.assign(
-        genres=cleaned_df['genres'].str.split(',')
-    ).explode('genres')
+    # ---- UNIVARIATE ----
+    rating_data = df['rating'].dropna().tolist()
 
+    genre_expanded = df.assign(genres=df['genres'].str.split(',')).explode('genres')
     genre_expanded['genres'] = genre_expanded['genres'].str.strip()
 
     genre_counts = genre_expanded['genres'].value_counts().head(10)
+    runtime_data = df['runtime'].dropna().tolist()
 
-    # Rating bins
-    bins = [0, 2, 4, 6, 8, 10]
-    hist, bin_edges = np.histogram(cleaned_df['rating'].dropna(), bins=bins)
+    # ---- BIVARIATE ----
+    rating_popularity = df[['rating', 'popularity']].dropna()
 
-    rating_bins = [
-        f"{int(bin_edges[i])}-{int(bin_edges[i+1])}"
-        for i in range(len(bin_edges)-1)
-    ]
-    rating_counts = hist.tolist()
+    genre_rating = genre_expanded.groupby('genres')['rating'].mean().sort_values(ascending=False).head(10)
 
-    # ===============================
-    # CORRELATION
-    # ===============================
-    corr_df = cleaned_df[
-        ['rating', 'votes', 'popularity', 'runtime']
-    ].dropna()
+    runtime_binge = df[['runtime', 'binge_score']].dropna()
 
+    # ---- CORRELATION ----
+    corr_df = df[['rating', 'votes', 'popularity', 'runtime', 'binge_score', 'total_watch_time']].dropna()
     corr_matrix = corr_df.corr().round(2)
 
-    # ===============================
-    # ANOVA
-    # ===============================
+    # ===========================
+    # 🔥 HYPOTHESIS TEST (ANOVA)
+    # ===========================
+
+    # Prepare data: group binge scores by genre
     genre_groups = genre_expanded.groupby('genres')['binge_score'].apply(list)
+
+    # Filter only genres with enough data
     valid_groups = [g for g in genre_groups if len(g) > 5]
 
     if len(valid_groups) > 1:
         f_stat, p_value = f_oneway(*valid_groups)
     else:
-        f_stat, p_value = 0, 1
+        f_stat, p_value = 0, 1  # fallback
 
+
+    # Create bins
+    bins = [0, 2, 4, 6, 8, 10]
+    hist, bin_edges = np.histogram(df['rating'].dropna(), bins=bins)
+
+    rating_bins = [f"{int(bin_edges[i])}-{int(bin_edges[i+1])}" for i in range(len(bin_edges)-1)]
+    rating_counts = hist.tolist()
+
+    # Decision
     alpha = 0.05
     if p_value < alpha:
-        hypothesis_result = "Reject Null Hypothesis"
+        hypothesis_result = "Reject Null Hypothesis: Different genres have significantly different binge scores."
     else:
-        hypothesis_result = "Fail to Reject Null Hypothesis"
+        hypothesis_result = "Fail to Reject Null Hypothesis: No significant difference in binge scores across genres."
 
-    # ===============================
-    # INSIGHTS
-    # ===============================
+    # ---- INSIGHTS ----
+    top_genre = genre_counts.index[0]
+    avg_rating = round(df['rating'].mean(), 2)
+    avg_binge = round(df['binge_score'].mean(), 2)
+
     insights = [
-        f"Dataset contains {total_rows} rows",
-        f"Average rating: {round(cleaned_df['rating'].mean(),2)}",
-        f"Average binge score: {round(cleaned_df['binge_score'].mean(),2)}",
-        f"Most common genre: {genre_counts.index[0]}"
+        f"The dataset contains {total_rows} records with {total_cols} features describing content characteristics.",
+        f"Average rating is {avg_rating}, indicating generally well-rated content.",
+        f"Average binge score is {avg_binge}, reflecting user engagement trends.",
+        f"Genre '{top_genre}' appears most frequently in the dataset.",
+        "Higher ratings and popularity tend to increase binge-worthiness.",
+        "Shorter runtime content often shows better engagement.",
+        hypothesis_result
     ]
 
     return render_template(
@@ -628,18 +624,24 @@ def analysis():
         columns=columns,
         sample_data=sample_data,
 
-        # 🔴 BEFORE CLEANING
-        missing_before_labels=missing_before.index.tolist(),
-        missing_before_values=missing_before.values.tolist(),
-
-        # 🟢 AFTER CLEANING
         missing_labels=missing.index.tolist(),
         missing_values=missing.values.tolist(),
         duplicates=duplicates,
         cleaning_notes=cleaning_notes,
 
+        rating_data=rating_data,
         genre_labels=genre_counts.index.tolist(),
         genre_counts=genre_counts.tolist(),
+        runtime_data=runtime_data,
+
+        rating_list=rating_popularity['rating'].tolist(),
+        popularity_list=rating_popularity['popularity'].tolist(),
+
+        genre_rating_labels=genre_rating.index.tolist(),
+        genre_rating_values=genre_rating.tolist(),
+
+        runtime_list=runtime_binge['runtime'].tolist(),
+        binge_list=runtime_binge['binge_score'].tolist(),
 
         corr_labels=corr_matrix.columns.tolist(),
         corr_values=corr_matrix.values.tolist(),
@@ -649,6 +651,7 @@ def analysis():
 
         insights=insights,
 
+        # 🔥 NEW VARIABLES
         f_stat=round(f_stat, 3),
         p_value=round(p_value, 5),
         hypothesis_result=hypothesis_result
